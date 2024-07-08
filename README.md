@@ -2,6 +2,8 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+[![Test](https://github.com/du5rte/mumzworld/actions/workflows/test.yml/badge.svg)](https://github.com/du5rte/mumzworld/actions/workflows/test.yml)
+
 ## Get started
 
 1. Install dependencies
