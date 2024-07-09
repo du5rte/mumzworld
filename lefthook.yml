@@ -18,7 +18,7 @@ pre-commit:
       run: pnpm eslint {staged_files}
     test:
       glob: "*.{js,csj,mjs,ts,jsx,tsx,mdx}"
-      run: pnpm jest --findRelatedTests {staged_files}
+      run: pnpm jest --findRelatedTests {staged_files} --passWithNoTests
 
 pre-push:
   follow: true
