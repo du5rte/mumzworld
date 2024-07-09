@@ -50,11 +50,5 @@
   "[mdx]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "colorize.languages": [
-    "json",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ]
+  "colorize.languages": ["json", "javascript", "javascriptreact", "typescript", "typescriptreact"]
 }
