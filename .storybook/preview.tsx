@@ -1,4 +1,5 @@
 import React from 'react';
+
 import type { Preview } from '@storybook/react';
 import { themes } from '@storybook/theming';
 import { DocsContainer } from '@storybook/blocks';
@@ -6,6 +7,7 @@ import type { DocsContextProps } from '@storybook/blocks';
 import { useDarkMode, DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
 import { TamaguiProvider } from 'tamagui';
 import { tamaguiConfig } from '../tamagui.config';
+import i18n from './i18next';
 
 const preview: Preview = {
   parameters: {
@@ -36,6 +38,13 @@ const preview: Preview = {
 
         return <DocsContainer {...props} theme={isDark ? themes.dark : themes.light} />;
       },
+    },
+    i18n,
+  },
+  globals: {
+    locales: {
+      en: { icon: '🇺🇸', title: 'English', right: 'EN' },
+      ar: { icon: '🇦🇪', title: 'العربية', right: 'AR' },
     },
   },
   tags: ['autodocs'],
