@@ -15,6 +15,7 @@ web-build/
 
 # tamagui
 **/.tamagui/*
+tamagui-web.css
 
 # jest
 coverage
