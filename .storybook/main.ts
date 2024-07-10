@@ -6,6 +6,7 @@ const main: StorybookConfig = {
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    'storybook-dark-mode',
     '@storybook/addon-react-native-web',
     '@storybook/addon-webpack5-compiler-babel',
   ],
