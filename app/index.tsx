@@ -4,10 +4,13 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Stack } from 'tamagui';
 import { Link } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 const title = 'Products List';
 
 export default function ProductListScreen() {
+  const { t } = useTranslation();
+
   return (
     <ThemedView style={styles.container}>
       <Stack style={styles.titleContainer}>
@@ -21,7 +24,7 @@ export default function ProductListScreen() {
               id: 1234,
             },
           }}>
-          Product Details
+          {t('actions.press')}
         </Link>
       </Stack>
     </ThemedView>

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { TamaguiProvider } from 'tamagui';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import '@/locales/i18next';
 import { tamaguiConfig } from '../tamagui.config';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
