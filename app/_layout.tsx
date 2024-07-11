@@ -8,12 +8,10 @@ import { TamaguiProvider } from 'tamagui';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import '@/locales/i18next';
 import { tamaguiConfig } from '../tamagui.config';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-
-const Header = () => <SafeAreaView edges={['top']} />;
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -34,10 +32,15 @@ export default function RootLayout() {
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={{ headerShown: false, presentation: 'modal' }}>
-          <Stack.Screen name="index" options={{ headerShown: true, header: Header }} />
-          <Stack.Screen name="product/[id]" />
-        </Stack>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen name="index" options={{ title: 'Store', headerShown: true }} />
+            <Stack.Screen
+              name="product/[id]"
+              options={{ presentation: 'transparentModal', headerShown: false }}
+            />
+          </Stack>
+        </GestureHandlerRootView>
       </ThemeProvider>
     </TamaguiProvider>
   );

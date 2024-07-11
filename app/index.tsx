@@ -1,49 +1,56 @@
-import { StyleSheet } from 'react-native';
+import { FlatList, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { router } from 'expo-router';
+import Animated from 'react-native-reanimated';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Stack } from 'tamagui';
-import { Link } from 'expo-router';
-import { useTranslation } from 'react-i18next';
-
-const title = 'Products List';
+import DATA from '@/data/colors.json';
 
 export default function ProductListScreen() {
-  const { t } = useTranslation();
+  const { width } = useWindowDimensions();
+
+  const gap = 8;
+  const numColumns = 3;
+  const itemSize = (width - (numColumns - 1) * gap) / numColumns;
 
   return (
-    <ThemedView style={styles.container}>
-      <Stack style={styles.titleContainer}>
-        <ThemedText type="title">{title}</ThemedText>
-      </Stack>
-      <Stack>
-        <Link
-          href={{
-            pathname: '/product/[id]',
-            params: {
-              id: 1234,
-            },
-          }}>
-          {t('actions.press')}
-        </Link>
-      </Stack>
-    </ThemedView>
+    <View style={styles.container}>
+      <FlatList
+        data={DATA}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Pressable
+            onPress={() => {
+              router.navigate({
+                pathname: '/product/[id]',
+                params: {
+                  id: item.id,
+                },
+              });
+            }}>
+            <Animated.View style={styles.wrapper} sharedTransitionTag={item.id + 'parent'}>
+              <Animated.View
+                style={{
+                  height: itemSize,
+                  width: itemSize,
+                  backgroundColor: item.color,
+                }}
+                sharedTransitionTag={item.id + 'child'}
+              />
+            </Animated.View>
+          </Pressable>
+        )}
+        numColumns={numColumns}
+        contentContainerStyle={{ gap }}
+        columnWrapperStyle={{ gap }}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 32,
-    gap: 16,
   },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  sectionContainer: {
-    gap: 8,
-    marginBottom: 8,
+  wrapper: {
+    backgroundColor: 'white',
   },
 });
