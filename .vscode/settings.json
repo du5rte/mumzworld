@@ -50,5 +50,10 @@
   "[mdx]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  // Jest
+  "jest.runMode": "on-save", // (prevent it from running automatically)
+  "jest.jestCommandLine": "pnpm jest --", // (use pnpm)
+  "testing.openTesting": "neverOpen", // (disable annoyingly terminal pop up on launch)
+  // Colorize
   "colorize.languages": ["json", "javascript", "javascriptreact", "typescript", "typescriptreact"]
 }
