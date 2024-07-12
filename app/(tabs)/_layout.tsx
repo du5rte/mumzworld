@@ -1,44 +1,21 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+
+import BottomTabBar from '@/components/bottom-tab-bar';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarShowLabel: true, headerShown: true }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="shop"
-        options={{
-          title: 'Shop',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="search" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="favourites"
-        options={{
-          title: 'Favourites',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="heart" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="bag"
-        options={{
-          title: 'Bag',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="shopping-basket" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
-        }}
-      />
+    <Tabs
+      // Fixes issue with the following error:
+      // Error: Invalid hook call. Hooks can only be called inside of the body of a function component.
+      tabBar={(props) => <BottomTabBar {...props} />}
+      screenOptions={{ tabBarShowLabel: true, headerShown: true }}
+      initialRouteName="shop"
+      backBehavior="history">
+      <Tabs.Screen name="index" options={{ title: 'Home ' }} />
+      <Tabs.Screen name="shop" options={{ title: 'Shop ' }} />
+      <Tabs.Screen name="favourites" options={{ title: 'Favourites ' }} />
+      <Tabs.Screen name="bag" options={{ title: 'Bag' }} />
+      <Tabs.Screen name="profile" options={{ title: 'Cart', tabBarShowLabel: false }} />
     </Tabs>
   );
 }

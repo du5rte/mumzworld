@@ -1,0 +1,421 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bottom-tab-bar should render correctly 1`] = `
+<View
+  collapsable={false}
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
+  style={
+    {
+      "backgroundColor": "black",
+      "borderRadius": 64,
+      "flex": 1,
+      "height": 64,
+      "maxWidth": 400,
+      "minWidth": 260,
+      "padding": 8,
+    }
+  }
+  testID="tab-bar"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+          },
+        }
+      }
+      style={
+        {
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "white",
+            "borderBottomLeftRadius": 100000,
+            "borderBottomRightRadius": 100000,
+            "borderTopLeftRadius": 100000,
+            "borderTopRightRadius": 100000,
+            "flexDirection": "column",
+            "height": 48,
+            "justifyContent": "center",
+            "maxHeight": 48,
+            "maxWidth": 48,
+            "minHeight": 48,
+            "minWidth": 48,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "width": 48,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        accessibilityLabel="Home"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+        testID="tab-item-index"
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 100000,
+              "borderBottomRightRadius": 100000,
+              "borderTopLeftRadius": 100000,
+              "borderTopRightRadius": 100000,
+              "flexDirection": "column",
+              "height": 48,
+              "justifyContent": "center",
+              "maxHeight": 48,
+              "maxWidth": 48,
+              "minHeight": 48,
+              "minWidth": 48,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "width": 48,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        accessibilityLabel="Shop"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": true,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+        testID="tab-item-shop-focused"
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 100000,
+              "borderBottomRightRadius": 100000,
+              "borderTopLeftRadius": 100000,
+              "borderTopRightRadius": 100000,
+              "flexDirection": "column",
+              "height": 48,
+              "justifyContent": "center",
+              "maxHeight": 48,
+              "maxWidth": 48,
+              "minHeight": 48,
+              "minWidth": 48,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "width": 48,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        accessibilityLabel="Favourites"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+        testID="tab-item-favourites"
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 100000,
+              "borderBottomRightRadius": 100000,
+              "borderTopLeftRadius": 100000,
+              "borderTopRightRadius": 100000,
+              "flexDirection": "column",
+              "height": 48,
+              "justifyContent": "center",
+              "maxHeight": 48,
+              "maxWidth": 48,
+              "minHeight": 48,
+              "minWidth": 48,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "width": 48,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        accessibilityLabel="Cart"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+        testID="tab-item-bag"
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 100000,
+              "borderBottomRightRadius": 100000,
+              "borderTopLeftRadius": 100000,
+              "borderTopRightRadius": 100000,
+              "flexDirection": "column",
+              "height": 48,
+              "justifyContent": "center",
+              "maxHeight": 48,
+              "maxWidth": 48,
+              "minHeight": 48,
+              "minWidth": 48,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "width": 48,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        accessibilityLabel="Profile"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+        testID="tab-item-profile"
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 100000,
+              "borderBottomRightRadius": 100000,
+              "borderTopLeftRadius": 100000,
+              "borderTopRightRadius": 100000,
+              "flexDirection": "column",
+              "height": 48,
+              "justifyContent": "center",
+              "maxHeight": 48,
+              "maxWidth": 48,
+              "minHeight": 48,
+              "minWidth": 48,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "width": 48,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
