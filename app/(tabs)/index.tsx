@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated';
 
 import DATA from '@/data/colors.json';
 
-export default function ProductListScreen() {
+export default function HomeScreen() {
   const { width } = useWindowDimensions();
 
   const gap = 8;

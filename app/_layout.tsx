@@ -33,8 +33,8 @@ export default function RootLayout() {
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <Stack>
-            <Stack.Screen name="index" options={{ title: 'Store', headerShown: true }} />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
             <Stack.Screen
               name="product/[id]"
               options={{ presentation: 'transparentModal', headerShown: false }}
