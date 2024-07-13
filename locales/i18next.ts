@@ -7,7 +7,7 @@ import ar from './ar.json';
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
-  lng: getLocales()[0].languageCode || 'ar',
+  lng: getLocales()[0]?.languageCode || 'ar',
   resources: {
     en,
     ar,
