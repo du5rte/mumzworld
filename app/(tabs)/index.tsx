@@ -3,9 +3,12 @@ import { router } from 'expo-router';
 import Animated from 'react-native-reanimated';
 
 import DATA from '@/data/colors.json';
+import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
+import { useRecoilState } from 'recoil';
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
+  const [, setBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
 
   const gap = 8;
   const numColumns = 3;
@@ -19,6 +22,7 @@ export default function HomeScreen() {
         renderItem={({ item }) => (
           <Pressable
             onPress={() => {
+              setBottomTabBarContentHidden(true);
               router.navigate({
                 pathname: '/product/[id]',
                 params: {

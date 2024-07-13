@@ -10,6 +10,7 @@ import '@/locales/i18next';
 import { tamaguiConfig } from '../tamagui.config';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { RecoilRoot } from 'recoil';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,13 +36,15 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen
-                name="product/[id]"
-                options={{ presentation: 'transparentModal', headerShown: false }}
-              />
-            </Stack>
+            <RecoilRoot>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen
+                  name="product/[id]"
+                  options={{ presentation: 'transparentModal', headerShown: false }}
+                />
+              </Stack>
+            </RecoilRoot>
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </ThemeProvider>

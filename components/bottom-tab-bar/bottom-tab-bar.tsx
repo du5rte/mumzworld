@@ -9,6 +9,7 @@ import Animated, {
   useSharedValue,
   withTiming,
   Easing,
+  withDelay,
 } from 'react-native-reanimated';
 
 import {
@@ -18,6 +19,9 @@ import {
   TAB_BAR_MARGIN,
   TAB_ICON_SIZE,
 } from './bottom-tab-bar-constants';
+import { useRecoilState } from 'recoil';
+import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
+import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
 
 /**
  * Separate `TabBar` and `BottomTabBar` components has they have 2 different purposes:
@@ -87,10 +91,19 @@ export interface TabBarProps {
   currentTabIndex: number;
   onTabPress?: (index: number, tabs: Tab) => void;
   onTabLongPress?: (index: number, tabs: Tab) => void;
+  hideTabs?: boolean;
+  sharedTransitionTag?: string;
 }
 
 export function TabBar(props: TabBarProps) {
-  const { tabs, currentTabIndex = 0, onTabPress, onTabLongPress } = props;
+  const {
+    tabs,
+    currentTabIndex = 0,
+    onTabPress,
+    onTabLongPress,
+    hideTabs,
+    sharedTransitionTag,
+  } = props;
 
   // Used to store the x position of each tab button
   const tabsPositionsX = useSharedValue<number[]>([0, 0, 0, 0, 0]);
@@ -117,25 +130,37 @@ export function TabBar(props: TabBarProps) {
     };
   });
 
+  const contentAnimatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: hideTabs ? withTiming(0, { duration: 200 }) : withDelay(400, withTiming(1)),
+    };
+  });
+
   return (
     <Animated.View
       testID={'tab-bar'}
       style={{
         flex: 1,
-        minWidth: TAB_SIZE * tabs.length + (tabs.length - 1) + TAB_PADDING * 2,
+        minWidth: TAB_SIZE * tabs.length + (tabs.length - 1) * 8 + TAB_PADDING * 2,
         maxWidth: TAB_SIZE * tabs.length + (tabs.length - 1) * 36 + TAB_PADDING * 2,
+        flexGrow: 1,
+
         padding: TAB_PADDING,
         height: TAB_BAR_HEIGHT,
         borderRadius: TAB_BAR_HEIGHT,
         backgroundColor: 'black',
-      }}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+      }}
+      sharedTransitionTag={sharedTransitionTag}>
+      <Animated.View
+        style={[
+          {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          },
+          contentAnimatedStyles,
+        ]}>
         <Animated.View style={indicatorAnimatedStyles}>
           <Circle size={TAB_SIZE} backgroundColor="white" />
         </Animated.View>
@@ -166,7 +191,7 @@ export function TabBar(props: TabBarProps) {
             </View>
           );
         })}
-      </View>
+      </Animated.View>
     </Animated.View>
   );
 }
@@ -186,15 +211,20 @@ export function BottomTabBar(props: BottomTabBarProps) {
 
   const insets = useSafeAreaInsets();
 
+  const [isBottomTabBarForcedShown] = useRecoilState(bottomTabBarShown);
+  const [isBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
+
   const currentTabIndex = state.index;
 
-  // Used to determine if the tab bar should be shown
+  // Determine if the tab bar should be shown
   // by checking if the current route has `tabBarShowLabel` set to `false`
   const tabBarShow = useMemo(() => {
     const currentRoute = state.routes[currentTabIndex];
     const currentDescriptor = descriptors[currentRoute.key];
-    return currentDescriptor.options.tabBarShowLabel;
-  }, [state, descriptors, currentTabIndex]);
+    const { tabBarShowLabel } = currentDescriptor.options;
+
+    return tabBarShowLabel || isBottomTabBarForcedShown;
+  }, [state, descriptors, currentTabIndex, isBottomTabBarForcedShown]);
 
   const PADDING_BOTTOM = Math.max(insets.bottom, TAB_BAR_MARGIN);
 
@@ -203,6 +233,8 @@ export function BottomTabBar(props: BottomTabBarProps) {
   const animatedContainerStyles = useAnimatedStyle(() => {
     return {
       flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
       transform: [
         {
           translateY: tabBarShow
@@ -270,9 +302,17 @@ export function BottomTabBar(props: BottomTabBarProps) {
         padding: TAB_BAR_MARGIN, // TODO: adjust for smaller devices
         paddingBottom: PADDING_BOTTOM,
         bottom: 0,
-      }}>
-      <Animated.View testID={'bottom-tab-bar'} style={animatedContainerStyles}>
-        <TabBar tabs={tabs} currentTabIndex={currentTabIndex} />
+        left: 0,
+        right: 0,
+      }}
+      testID={'bottom-tab-bar'}>
+      <Animated.View style={animatedContainerStyles}>
+        <TabBar
+          tabs={tabs}
+          currentTabIndex={currentTabIndex}
+          hideTabs={isBottomTabBarContentHidden}
+          sharedTransitionTag={'bottom-tab-bar'}
+        />
       </Animated.View>
     </View>
   );

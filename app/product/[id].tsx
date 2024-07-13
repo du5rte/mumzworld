@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Button, Stack } from 'tamagui';
+import { Button, Card, Stack } from 'tamagui';
 import { ThemedText } from '@/components/ThemedText';
 import { router, useLocalSearchParams } from 'expo-router';
 import Animated, {
@@ -12,8 +12,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Feather from '@expo/vector-icons/Feather';
 
 import DATA from '@/data/colors.json';
+import { useRecoilState } from 'recoil';
+import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
 
 const title = 'Product';
 
@@ -30,8 +33,7 @@ function getItemById(id: string) {
 
 export default function ProductScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-
-  const item = getItemById(id!);
+  const [, setBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
 
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -90,6 +92,14 @@ export default function ProductScreen() {
     };
   });
 
+  const item = getItemById(id!);
+
+  const handleGoBack = () => {
+    setBottomTabBarContentHidden(false);
+
+    router.back();
+  };
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View style={[{ flex: 1 }, animatedStyle]} sharedTransitionTag={id + 'parent'}>
@@ -99,7 +109,7 @@ export default function ProductScreen() {
         />
 
         <Animated.View style={animatedContentStyle}>
-          <Animated.View entering={FadeIn.delay(500).duration(300)} style={styles.contentContainer}>
+          <Animated.View entering={FadeIn.delay(400).duration(300)} style={styles.contentContainer}>
             <Stack style={styles.titleContainer}>
               <ThemedText type="title">{title}</ThemedText>
             </Stack>
@@ -113,8 +123,69 @@ export default function ProductScreen() {
               </ThemedText>
             </Stack>
 
-            <Button onPress={() => router.back()}>Go back</Button>
+            <Button onPress={handleGoBack}>Go back</Button>
           </Animated.View>
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            flex: 1,
+            width: '100%',
+            position: 'absolute',
+            bottom: 30,
+            flexDirection: 'row',
+            padding: 12,
+            gap: 12,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white',
+          }}>
+          <Card elevation="$1" backgroundColor="white" padding={20} borderRadius={999}>
+            <Feather name="share" size={24} color="black" />
+          </Card>
+
+          <Animated.View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 64,
+              // borderRadius: 999,
+              // backgroundColor: 'black',
+            }}>
+            {/**
+             * This is a workaround to facilitate the shared transition
+             * otherwise the content is visible during transition
+             */}
+            <Animated.View
+              style={[
+                StyleSheet.absoluteFill,
+                {
+                  borderRadius: 999,
+                  backgroundColor: 'black',
+                },
+              ]}
+              sharedTransitionTag={'bottom-tab-bar'}
+            />
+            {/* End of workaround */}
+            <Animated.View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 8,
+                padding: 20,
+                paddingHorizontal: 24,
+              }}
+              entering={FadeIn.delay(600)}>
+              <Feather name="shopping-bag" size={24} color="white" />
+              <ThemedText style={{ color: 'white' }}>Add to bag</ThemedText>
+            </Animated.View>
+          </Animated.View>
+
+          <Card elevation="$1" backgroundColor="white" padding={20} borderRadius={999}>
+            <Feather name="heart" size={24} color="black" />
+          </Card>
         </Animated.View>
       </Animated.View>
     </GestureDetector>
@@ -128,6 +199,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 300,
+    overflow: 'hidden',
   },
   contentContainer: {
     padding: 32,

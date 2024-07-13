@@ -1,11 +1,28 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, Switch } from 'react-native';
 import { Button } from 'tamagui';
 import { router } from 'expo-router';
+import { ThemedText } from '@/components/ThemedText';
+import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
+import { useRecoilState } from 'recoil';
 
 export default function ProfileTab() {
+  const [state, setState] = useRecoilState(bottomTabBarShown);
+
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingVertical: 12,
+          paddingHorizontal: 24,
+          justifyContent: 'space-between',
+        }}>
+        <ThemedText>
+          Show <ThemedText type="defaultSemiBold">BottomTabBar</ThemedText>
+        </ThemedText>
+        <Switch value={state} onValueChange={setState} />
+      </View>
+
       <Button
         onPress={() => {
           router.back();
@@ -19,7 +36,6 @@ export default function ProfileTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
   },
 });
