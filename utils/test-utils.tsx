@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react-native';
-import { TamaguiProvider } from 'tamagui';
-import config from '@/tamagui.config';
+import { ThemeProvider } from '@shopify/restyle';
+import { lightTheme } from '@/styles/themes';
 
 const AllTheProviders = ({ children }: PropsWithChildren) => {
-  return <TamaguiProvider config={config}>{children}</TamaguiProvider>;
+  return <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>;
 };
 
 const customRender: typeof render = (ui, options?) =>

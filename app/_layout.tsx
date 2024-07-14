@@ -1,16 +1,20 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useEffect } from 'react';
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider as NavigationThemeProvider,
+} from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { TamaguiProvider } from 'tamagui';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import '@/locales/i18next';
-import { tamaguiConfig } from '../tamagui.config';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RecoilRoot } from 'recoil';
+import { ThemeProvider } from '@shopify/restyle';
+import { darkTheme, lightTheme } from '@/styles/themes';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import '@/locales/i18next';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -18,7 +22,10 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    'Inter-Regular': require('../assets/fonts/Inter-Regular.ttf'),
+    'Inter-Medium': require('../assets/fonts/Inter-Medium.ttf'),
+    'Inter-SemiBold': require('../assets/fonts/Inter-SemiBold.ttf'),
+    'Inter-Bold': require('../assets/fonts/Inter-Bold.ttf'),
   });
 
   useEffect(() => {
@@ -32,8 +39,8 @@ export default function RootLayout() {
   }
 
   return (
-    <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+      <NavigationThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
             <RecoilRoot>
@@ -47,7 +54,7 @@ export default function RootLayout() {
             </RecoilRoot>
           </SafeAreaProvider>
         </GestureHandlerRootView>
-      </ThemeProvider>
-    </TamaguiProvider>
+      </NavigationThemeProvider>
+    </ThemeProvider>
   );
 }

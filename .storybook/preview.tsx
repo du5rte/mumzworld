@@ -5,14 +5,21 @@ import { themes } from '@storybook/theming';
 import { DocsContainer } from '@storybook/blocks';
 import type { DocsContextProps } from '@storybook/blocks';
 import { useDarkMode, DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
-import { TamaguiProvider } from 'tamagui';
-import { tamaguiConfig } from '../tamagui.config';
+import { ThemeProvider } from '@shopify/restyle';
+
 import i18n from './i18next';
+import { darkTheme, lightTheme } from '../styles/themes';
 
 const preview: Preview = {
   parameters: {
     actions: {
       // argTypesRegex: "^on[A-Z].*"
+    },
+    options: {
+      storySort: {
+        // Atomic design order
+        order: ['Primitives', 'Components', 'Formations'],
+      },
     },
     controls: {
       matchers: {
@@ -55,8 +62,8 @@ export default preview;
 // Dark theming for story pages
 export const decorators = [
   (Story) => (
-    <TamaguiProvider config={tamaguiConfig} defaultTheme={useDarkMode() ? 'dark' : 'light'!}>
+    <ThemeProvider theme={useDarkMode() ? darkTheme : lightTheme}>
       <Story />
-    </TamaguiProvider>
+    </ThemeProvider>
   ),
 ];

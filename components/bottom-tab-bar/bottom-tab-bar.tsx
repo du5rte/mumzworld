@@ -1,17 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { LayoutChangeEvent, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs/src/types';
 import Feather from '@expo/vector-icons/Feather';
-import { Circle as _Circle, styled } from 'tamagui';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  Easing,
   withDelay,
 } from 'react-native-reanimated';
-
+import { useRecoilState } from 'recoil';
+import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
+import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
+import { withEaseOutQuad, withEaseOutSin } from '@/styles/timings';
 import {
   TAB_PADDING,
   TAB_SIZE,
@@ -19,20 +20,8 @@ import {
   TAB_BAR_MARGIN,
   TAB_ICON_SIZE,
 } from './bottom-tab-bar-constants';
-import { useRecoilState } from 'recoil';
-import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
-import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
-
-/**
- * Separate `TabBar` and `BottomTabBar` components has they have 2 different purposes:
- *
- * `TabBar` is a dumb component that only renders the tab bar
- *
- * `BottomTabBar`'s main concern is adpating to react-navigation's API
- * and rendering the tab bar at the bottom of the screen
- *
- * This separation allows for better testing and separation of concerns
- */
+import Box, { BoxProps } from '../box';
+import Circle from '../circle';
 
 export type FeatherIconName = keyof typeof Feather.glyphMap;
 
@@ -43,17 +32,6 @@ export interface Tab {
   onPress?: () => void;
   onLongPress?: () => void;
 }
-
-const Circle = styled(_Circle, {
-  variants: {
-    centered: {
-      true: {
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-    },
-  },
-} as const);
 
 export interface TabItemProps extends Tab {
   id: string;
@@ -75,7 +53,7 @@ export function TabItem(props: TabItemProps) {
       testID={`tab-item-${props.id}${focused ? '-focused' : ''}`}
       onPress={onPress}
       onLongPress={onLongPress}>
-      <Circle centered size={TAB_SIZE}>
+      <Circle size={TAB_SIZE}>
         <Feather
           name={icon}
           size={TAB_ICON_SIZE}
@@ -124,9 +102,7 @@ export function TabBar(props: TabBarProps) {
     const currentX = tabsPositionsX.value[currentTabIndex];
     return {
       position: 'absolute',
-      transform: [
-        { translateX: withTiming(currentX, { duration: 200, easing: Easing.out(Easing.quad) }) },
-      ],
+      transform: [{ translateX: withEaseOutQuad(currentX) }],
     };
   });
 
@@ -162,7 +138,7 @@ export function TabBar(props: TabBarProps) {
           contentAnimatedStyles,
         ]}>
         <Animated.View style={indicatorAnimatedStyles}>
-          <Circle size={TAB_SIZE} backgroundColor="white" />
+          <Circle size={TAB_SIZE} backgroundColor="primaryInvert" />
         </Animated.View>
 
         {tabs.map((tab, index) => {
@@ -206,6 +182,16 @@ export function routeNameToIconName(name: string) {
   }[name] as FeatherIconName;
 }
 
+/**
+ * Separate `TabBar` and `BottomTabBar` components has they have 2 different purposes:
+ *
+ * `TabBar` is a dumb component that only renders the tab bar
+ *
+ * `BottomTabBar`'s main concern is adpating to react-navigation's API
+ * and rendering the tab bar at the bottom of the screen
+ *
+ * This separation allows for better testing and separation of concerns
+ */
 export function BottomTabBar(props: BottomTabBarProps) {
   const { state, descriptors, navigation } = props;
 
@@ -238,14 +224,8 @@ export function BottomTabBar(props: BottomTabBarProps) {
       transform: [
         {
           translateY: tabBarShow
-            ? withTiming(0, {
-                duration: 300,
-                easing: Easing.out(Easing.sin),
-              })
-            : withTiming(TAB_BAR_HEIGHT + PADDING_BOTTOM, {
-                duration: 200,
-                easing: Easing.out(Easing.quad),
-              }),
+            ? withEaseOutSin(0)
+            : withEaseOutQuad(TAB_BAR_HEIGHT + PADDING_BOTTOM),
         },
       ],
     };

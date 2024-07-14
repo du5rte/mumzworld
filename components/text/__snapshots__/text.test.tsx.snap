@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`text should render correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "fontFamily": "Inter-Regular",
+        "fontSize": 16,
+        "lineHeight": 24,
+      },
+    ]
+  }
+/>
+`;
