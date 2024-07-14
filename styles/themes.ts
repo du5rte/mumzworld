@@ -1,23 +1,24 @@
+import bottomTabBar from '@/components/bottom-tab-bar';
 import { createTheme } from '@shopify/restyle';
 import { Platform } from 'react-native';
 
 export const theme = createTheme({
   colors: {
+    background: 'hsl(0, 0%, 100%)', // #FFFFFF
+    surface: 'hsl(0, 0%, 98%)', // #FAFAFA
+
     // Primary
     primary: 'hsl(0, 0%, 0%)',
     primaryInvert: 'hsl(0, 0%, 100%)', // #FFFFFF
     primaryHover: 'hsl(0, 0%, 17%)', // #383838
-    primaryPress: 'hsl(0, 0%, 0%)',
+    primaryPress: 'hsla(0, 0%, 60%, 0.5)',
     primaryBackgroundPress: 'hsl(0, 0%, 20%)',
 
-    surface: 'hsl(0, 0%, 98%)', // #FAFAFA
-    background: 'hsl(0, 0%, 100%)', // #FFFFFF
-
     // Secondary
-    secondary: 'hsl(0, 0%, 40%)',
-    secondaryInvert: 'hsl(0, 0%, 0%)',
-    secondaryHover: 'hsl(0, 0%, 33%)',
-    secondaryPress: 'hsl(0, 0%, 40%)',
+    secondary: 'hsl(0, 0%, 60%)', // Lightened
+    secondaryInvert: 'hsl(0, 0%, 0%)', // Inverted
+    secondaryHover: 'hsl(0, 0%, 67%)', // Lightened
+    secondaryPress: 'hsl(0, 0%, 60%)', // Lightened
 
     // Tertiary
     tertiary: 'hsl(0, 0%, 68%)', // #ADADAD
@@ -121,6 +122,7 @@ export const theme = createTheme({
         fontFamily: 'Inter, sans-serif',
         fontWeight: '400',
       }),
+      color: 'primary',
       fontSize: 16,
       lineHeight: 24,
     },
@@ -174,7 +176,58 @@ export const darkTheme: Theme = {
   ...theme,
   colors: {
     ...theme.colors,
-    // TODO: add dark theme
+    background: 'hsl(0, 0%, 10%)', // Darkened
+    surface: 'hsl(0, 0%, 12%)', // Darkened
+
+    // Dark Theme Colors
+    // Primary
+    primary: 'hsl(0, 0%, 100%)', // Inverted
+    primaryInvert: 'hsl(0, 0%, 0%)', // Inverted
+    primaryHover: 'hsl(0, 0%, 83%)', // Lightened
+    primaryPress: 'hsl(0, 0%, 100%)', // Inverted
+    primaryBackgroundPress: 'hsl(0, 0%, 80%)', // Lightened
+
+    // Secondary
+    secondary: 'hsl(0, 0%, 60%)', // Lightened
+    secondaryInvert: 'hsl(0, 0%, 100%)', // Inverted
+    secondaryHover: 'hsl(0, 0%, 67%)', // Lightened
+    secondaryPress: 'hsl(0, 0%, 60%)', // Lightened
+
+    // Tertiary
+    tertiary: 'hsl(0, 0%, 32%)', // Darkened
+
+    // Inactive
+    inactive: 'hsl(0, 0%, 47%)', // Adjusted
+    inactiveSurface: 'hsl(0, 0%, 15%)', // Darkened
+
+    // Highlight
+    highlight: 'hsl(216, 100%, 52%)', // Adjusted
+    highlightHover: 'hsl(216, 100%, 55%)', // Adjusted
+    highlightPress: 'hsl(216, 100%, 48%)', // Adjusted
+    highlightActive: 'hsl(216, 100%, 43%)', // Adjusted
+    highlightInvertPress: 'hsl(216, 100%, 17%)', // Adjusted
+
+    // Success
+    success: 'hsl(154, 72%, 49%)', // Adjusted
+    successDivider: 'hsl(154, 74%, 24%)', // Adjusted
+
+    // Error
+    error: 'hsl(0, 72%, 49%)', // Adjusted
+    errorDivider: 'hsl(1, 74%, 24%)', // Adjusted
+
+    // Divider
+    divider: 'hsl(240, 6%, 17%)', // Lightened for contrast
+    dividerHover: 'hsl(240, 5%, 32%)', // Lightened for contrast
+    dividerActive: 'hsl(240, 2%, 46%)', // Lightened for contrast
+
+    // Shadows
+    shadowColor: 'hsla(0, 0%, 0%, 0.2)', // Adjusted opacity
+    shadowColorHover: 'hsla(0, 0%, 0%, 0.1)', // Adjusted opacity
+    shadowColorFocus: 'hsla(0, 0%, 0%, 0.1)', // Adjusted opacity
+    shadowColorPress: 'hsla(0, 0%, 0%, 0.05)', // Adjusted opacity
+
+    // Transparent
+    transparent: 'transparent', // Unchanged
   },
 };
 

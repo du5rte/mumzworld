@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { LayoutChangeEvent, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs/src/types';
@@ -10,6 +10,8 @@ import Animated, {
   withDelay,
 } from 'react-native-reanimated';
 import { useRecoilState } from 'recoil';
+import { useTheme } from '@shopify/restyle';
+import { Theme } from '@/styles/themes';
 import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
 import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
 import { withEaseOutQuad, withEaseOutSin } from '@/styles/timings';
@@ -45,6 +47,8 @@ export interface TabItemProps extends Tab {
 export function TabItem(props: TabItemProps) {
   const { label, icon, focused, onPress, onLongPress } = props;
 
+  const theme = useTheme<Theme>();
+
   return (
     <TouchableOpacity
       accessibilityRole="button"
@@ -57,7 +61,7 @@ export function TabItem(props: TabItemProps) {
         <Feather
           name={icon}
           size={TAB_ICON_SIZE}
-          color={focused ? 'hsla(0, 100%, 0%, 1)' : 'hsla(0, 100%, 100%, 0.66)'}
+          color={focused ? theme.colors.primary : theme.colors.secondary}
         />
       </Circle>
     </TouchableOpacity>
@@ -82,6 +86,7 @@ export function TabBar(props: TabBarProps) {
     hideTabs,
     sharedTransitionTag,
   } = props;
+  const theme = useTheme<Theme>();
 
   // Used to store the x position of each tab button
   const tabsPositionsX = useSharedValue<number[]>([0, 0, 0, 0, 0]);
@@ -124,7 +129,7 @@ export function TabBar(props: TabBarProps) {
         padding: TAB_PADDING,
         height: TAB_BAR_HEIGHT,
         borderRadius: TAB_BAR_HEIGHT,
-        backgroundColor: 'black',
+        backgroundColor: theme.colors.primary,
       }}
       sharedTransitionTag={sharedTransitionTag}>
       <Animated.View

@@ -18,8 +18,10 @@ export default function BagTab() {
       gap="m"
       paddingHorizontal="2xl"
       style={{ paddingBottom }}>
-      <Circle size={82} borderWidth={3}>
-        <Icon name="shopping-bag" size={36} />
+      <Circle size={82} borderWidth={3} borderColor="primary">
+        <Text color="primary" lineHeight={36}>
+          <Icon name="shopping-bag" size={36} />
+        </Text>
       </Circle>
       <Text color="primary" textAlign="center">
         {t('description')}

@@ -113,13 +113,7 @@ export function Button(props: ButtonProps) {
   const animatedBackgroundColor = useDerivedValue(() => {
     if (disabled) return withEaseOutExpo(theme.colors.inactiveSurface);
     if (variant === 'primary') {
-      return withEaseOutExpo(
-        press.value
-          ? theme.colors.primaryBackgroundPress
-          : hover.value
-            ? theme.colors.primaryHover
-            : theme.colors.primary
-      );
+      return withEaseOutExpo(hover.value ? theme.colors.primaryHover : theme.colors.primary);
     }
     if (variant === 'highlight') {
       return withEaseOutExpo(

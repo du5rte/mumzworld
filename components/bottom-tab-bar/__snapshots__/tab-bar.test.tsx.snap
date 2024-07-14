@@ -10,7 +10,7 @@ exports[`bottom-tab-bar should render correctly 1`] = `
   }
   style={
     {
-      "backgroundColor": "black",
+      "backgroundColor": "hsl(0, 0%, 0%)",
       "borderRadius": 64,
       "flex": 1,
       "flexGrow": 1,
