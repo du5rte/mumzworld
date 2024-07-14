@@ -3,8 +3,49 @@
     "app": {
       "name": "mumzworld"
     },
+    "languages": {
+      "en": "English",
+      "ar": "Arabic"
+    },
     "actions": {
-      "press": "Press me"
+      "press": "Press"
+    },
+    "navigation": {
+      "home": "Home",
+      "shop": "Shop",
+      "favourites": "Favourites",
+      "bag": "Bag",
+      "profile": "Account"
+    },
+    "home": {
+      "title": "Home",
+      "description": "Welcome to mumzworld"
+    },
+    "shop": {
+      "title": "Shop",
+      "description": "Browse our products\n"
+    },
+    "favourites": {
+      "title": "Favourites",
+      "description": "Items added to your Favourites\nwill be saved here."
+    },
+    "bag": {
+      "title": "Bag",
+      "description": "Items added to your Bag\nwill be saved here."
+    },
+    "profile": {
+      "title": "Account",
+      "description": "Sign in to access your account"
+    },
+    "devmenu": {
+      "title": "Developer Menu",
+      "description": "Developer options",
+      "hi": "Hi",
+      "showBottomTabBar": "Show BottomTabBar",
+      "switchLanguage": "Switch Language",
+      "english": "English 🇺🇸",
+      "arabic": "Arabic 🇦🇪",
+      "return": "Return"
     }
   }
 }
