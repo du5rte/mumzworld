@@ -1,18 +1,19 @@
 import { StyleSheet, Switch, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { useRecoilState } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
 import Text from '@/components/text';
 import Button from '@/components/button';
 import Box from '@/components/box';
-import { useTranslation } from 'react-i18next';
+import { persistLanguageChange } from '@/locales/i18next';
 
 export default function ProfileTab() {
   const { t, i18n } = useTranslation('translation', { keyPrefix: 'devmenu' });
   const [state, setState] = useRecoilState(bottomTabBarShown);
 
   const handleSwitchLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
+    persistLanguageChange(i18n.language === 'en' ? 'ar' : 'en');
   };
 
   return (
