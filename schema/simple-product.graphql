@@ -1,0 +1,104 @@
+type PageInfo {
+  total_pages: Int
+}
+
+type SmallImage {
+  url: String
+}
+
+type ProductLabel {
+  active_from: String
+  active_to: String
+  background_color: String
+  label_id: String
+  label_text: String
+  name: String
+  text_color: String
+}
+
+type FinalPrice {
+  currency: String
+  value: Float
+}
+
+type UsdPriceRange {
+  minimum_price: MinimumPrice
+}
+
+type RegularPrice {
+  currency: String
+  value: Float
+}
+
+type BasePriceRange {
+  minimum_price: MinimumPrice
+}
+
+type Discount {
+  amount_off: Float
+  percent_off: Float
+}
+
+type MinimumPrice {
+  regular_price: RegularPrice
+  final_price: FinalPrice
+  discount: Discount
+}
+
+type PriceRange {
+  minimum_price: MinimumPrice
+}
+
+type Amount {
+  currency: String
+  value: Float
+}
+
+type Price {
+  regularPrice: RegularPrice
+}
+
+type Categories {
+  name: String
+}
+
+type BrandInfo {
+  title: String
+}
+
+type SimpleProduct {
+  brand: Int
+  id: Int
+  low_stock_qty: String
+  name: String
+  sku: String
+  stock_status: String
+  type_id: String
+  uid: String
+  url_key: String
+  url_suffix: String
+  small_image: SmallImage
+  product_label: ProductLabel
+  usd_price_range: UsdPriceRange
+  base_price_range: BasePriceRange
+  price_range: PriceRange
+  price: Price
+  is_yalla: [String]
+  categories: [Categories]
+  brand_info: BrandInfo
+}
+
+type Products {
+  total_count: Int
+  yalla_total_count: Int
+  page_info: PageInfo
+  items: [SimpleProduct]
+}
+
+type Data {
+  products: Products
+}
+
+# Types with identical fields:
+# FinalPrice RegularPrice Amount
+# UsdPriceRange BasePriceRange PriceRange

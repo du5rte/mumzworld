@@ -1,0 +1,154 @@
+type SmallImage {
+  url: String
+}
+
+type PageInfo {
+  page_size: Int
+  total_pages: Int
+}
+
+type Reviews {
+  page_info: PageInfo
+  items: [String]
+}
+
+type ProductLabel {
+  active_from: String
+  active_to: String
+  background_color: String
+  label_id: String
+  label_text: String
+  name: String
+  text_color: String
+}
+
+type FinalPrice {
+  currency: String
+  value: Float
+}
+
+type UsdPriceRange {
+  minimum_price: MinimumPrice
+}
+
+type RegularPrice {
+  currency: String
+  value: Int
+}
+
+type BasePriceRange {
+  minimum_price: MinimumPrice
+}
+
+type Discount {
+  amount_off: Float
+  percent_off: Int
+}
+
+type MinimumPrice {
+  regular_price: RegularPrice
+  final_price: FinalPrice
+  discount: Discount
+}
+
+type PriceRange {
+  minimum_price: MinimumPrice
+}
+
+type Amount {
+  currency: String
+  value: Float
+}
+
+type Price {
+  regularPrice: RegularPrice
+}
+
+type MediaGalleryEntries {
+  disabled: Boolean
+  file: String
+  id: Int
+  label: String
+  position: Int
+  uid: String
+}
+
+type MediaGallery {
+  disabled: Boolean
+  label: String
+  position: Int
+  url: String
+}
+
+type Description {
+  html: String
+}
+
+type CrossBorderProduct {
+  is_allowed: Boolean
+  disallow_countries: String
+}
+
+type Categories {
+  breadcrumbs: String
+  level: Int
+  id: Int
+  name: String
+  url_path: String
+  url_key: String
+}
+
+type BrandInfo {
+  img_src: String
+  title: String
+  url: String
+}
+
+type Product {
+  language: String
+  redirect_code: Int
+  relative_url: String
+  type: String
+  amrma_default_resolution_period: Int
+  brand: Int
+  cautions: String
+  dimensions: String
+  features: String
+  id: Int
+  meta_description: String
+  meta_title: String
+  name: String
+  pkgdimensions: String
+  rating_summary: Int
+  recom_age: String
+  review_count: Int
+  shipping_weight: String
+  sku: String
+  stock_status: String
+  uid: String
+  url_key: String
+  weight: Int
+  options: String
+  small_image: SmallImage
+  reviews: Reviews
+  product_label: ProductLabel
+  usd_price_range: UsdPriceRange
+  base_price_range: BasePriceRange
+  price_range: PriceRange
+  price: Price
+  media_gallery_entries: [MediaGalleryEntries]
+  media_gallery: [MediaGallery]
+  is_yalla: [String]
+  description: Description
+  cross_border_product: CrossBorderProduct
+  categories: [Categories]
+  brand_info: BrandInfo
+}
+
+type Data {
+  product: [Product]
+}
+
+# Types with identical fields:
+# FinalPrice Amount
+# UsdPriceRange BasePriceRange PriceRange
