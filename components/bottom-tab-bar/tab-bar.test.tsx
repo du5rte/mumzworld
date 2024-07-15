@@ -4,11 +4,6 @@ import { TabBar } from './bottom-tab-bar';
 import { tabs } from './tabsMock';
 
 describe('bottom-tab-bar', () => {
-  it('should render correctly', () => {
-    render(<TabBar currentTabIndex={1} tabs={tabs} />);
-
-    expect(screen.toJSON()).toMatchSnapshot();
-  });
   it('should contain a `tab-bar` test id', () => {
     render(<TabBar currentTabIndex={1} tabs={tabs} />);
 

@@ -63,6 +63,7 @@
     "@storybook/react-webpack5": "^8.1.11",
     "@storybook/test": "^8.1.11",
     "@storybook/testing-react": "^2.0.1",
+    "@testing-library/jest-native": "^5.4.3",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.2.45",
     "@types/react-test-renderer": "^18.0.7",

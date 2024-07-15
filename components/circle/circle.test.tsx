@@ -1,10 +1,17 @@
-import { render, screen } from '@/utils/test-utils';
+import { render } from '@/utils/test-utils';
+import '@testing-library/jest-native/extend-expect';
 
 import Circle from './circle';
 
-describe('circle', () => {
-  it('should renders correctly', () => {
-    render(<Circle size={100} backgroundColor="primary" />);
-    expect(screen.toJSON()).toMatchSnapshot();
+describe('Circle', () => {
+  it('applies correct size and borderRadius styles', () => {
+    const size = 50;
+    const { getByTestId } = render(<Circle size={size} testID="circle" />);
+
+    expect(getByTestId('circle')).toHaveStyle({
+      width: size,
+      height: size,
+      borderRadius: 9999,
+    });
   });
 });
