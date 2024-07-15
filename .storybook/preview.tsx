@@ -1,13 +1,13 @@
-import React from 'react';
-
+import React, { Suspense } from 'react';
 import type { Preview } from '@storybook/react';
 import { themes } from '@storybook/theming';
 import { DocsContainer } from '@storybook/blocks';
 import type { DocsContextProps } from '@storybook/blocks';
 import { useDarkMode, DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
 import { ThemeProvider } from '@shopify/restyle';
+import { I18nextProvider } from 'react-i18next';
 
-import i18n from './i18next';
+import i18n from '../locales/i18next-storybook';
 import { darkTheme, lightTheme } from '../styles/themes';
 
 const preview: Preview = {
@@ -62,8 +62,12 @@ export default preview;
 // Dark theming for story pages
 export const decorators = [
   (Story) => (
-    <ThemeProvider theme={useDarkMode() ? darkTheme : lightTheme}>
-      <Story />
-    </ThemeProvider>
+    <Suspense fallback={<div>loading translations...</div>}>
+      <ThemeProvider theme={useDarkMode() ? darkTheme : lightTheme}>
+        <I18nextProvider i18n={i18n}>
+          <Story />
+        </I18nextProvider>
+      </ThemeProvider>
+    </Suspense>
   ),
 ];

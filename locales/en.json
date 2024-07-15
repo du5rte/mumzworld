@@ -46,6 +46,11 @@
       "english": "English 🇺🇸",
       "arabic": "Arabic 🇦🇪",
       "return": "Return"
+    },
+    "product": {
+      "rating": "{{rating}} Rating",
+      "reviews": "{{reviews}} Reviews",
+      "sold": "{{sold}} Sold"
     }
   }
 }
