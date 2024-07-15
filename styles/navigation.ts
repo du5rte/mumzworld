@@ -24,7 +24,7 @@ export const headerStyle: ViewStyle = {
 };
 
 export const headerTitleStyle: TextStyle = {
-  fontFamily: 'Inter-medium',
+  fontFamily: 'Inter-Medium',
   ...(Platform.OS === 'web' && {
     fontFamily: 'Inter, sans-serif',
     fontWeight: '500',

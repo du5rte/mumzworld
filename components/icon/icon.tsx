@@ -13,7 +13,7 @@ export interface IconProps {
 export function Icon(props: IconProps) {
   const { name, size, color, testID } = props;
 
-  return <Feather Iconame={name} size={size} color={color} testID={testID} />;
+  return <Feather name={name} size={size} color={color} testID={testID} />;
 }
 
 export default Icon;

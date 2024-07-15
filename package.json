@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest",
     "lint": "expo lint",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier --silent --write \"**/*.{js,jsx,ts,tsx}\"",
     "clean": "rm -rf node_modules .expo ios android && watchman watch-del-all",
     "storybook": "pnpm storybook:web",
     "storybook:web": "storybook dev -p 6006"
@@ -34,6 +34,7 @@
     "expo-system-ui": "~3.0.7",
     "expo-web-browser": "~13.0.3",
     "i18next": "^23.11.5",
+    "numbro": "^2.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^14.1.2",
@@ -45,7 +46,8 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "^15.4.0",
     "react-native-web": "~0.19.10",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -133,6 +135,7 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "silent": true,
     "setupFilesAfterEnv": [
       "./jest-setup.js"
     ],

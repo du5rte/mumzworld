@@ -3,6 +3,7 @@
     "app": {
       "name": "mumzworld"
     },
+    "currency": "{{val, currency(AED)}}",
     "actions": {
       "press": "اضغط عليّ"
     },

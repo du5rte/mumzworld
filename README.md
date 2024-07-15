@@ -1,22 +1,58 @@
-# Welcome to your Expo app 👋
+# Mumzworld 🐣
 
+Welcome to 'Home Test' Mumzworld App 👋
+
+![screenshot](assets/images/banner.png)
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 [![Test](https://github.com/du5rte/mumzworld/actions/workflows/test.yml/badge.svg)](https://github.com/du5rte/mumzworld/actions/workflows/test.yml)
 
+## What's inside?
+
+This guide explains how to this monorepo powered by:
+
+- 📱 [Expo](https://expo.dev/) — Your go-to for crafting native apps across platforms with ease
+- 🚀 [React](https://reactjs.org/) — The bread and butter for creating slick user interfaces
+- 📱 [React Native](https://reactnative.dev/docs/getting-started) — Learn once, write anywhere
+- 📚 [Storybook](https://storybook.js.org/) — A sandbox for UI components, making testing a breeze
+- ✨ [Restyle](https://github.com/Shopify/restyle) — Theme-based components to keep your app stylish
+- 🏇 [Reanimated](https://docs.swmansion.com/react-native-reanimated/) — For buttery-smooth animations
+
+## Development Utilities
+
+This project comes with additional development tools:
+
+- 📘 [TypeScript](https://www.typescriptlang.org/) for static type checking
+- 📏 [ESLint](https://eslint.org/) — Keeping code in check! 👀
+- ✨ [Prettier](https://prettier.io) — Keeping code looking sharp and clean
+- 🧪 [Jest](https://jestjs.io/) — Testing made fun
+- 🥊 [Lefthook](https://github.com/evilmartians/lefthook) — Keeping commits in check
+- 📜 [commitlint](https://commitlint.js.org/) — Ensuring commit messages meet the conventional commit format
+- 🤖 [GitHub Actions](https://github.com/features/actions) — for continuous integration and deployment workflows
+
+Pre-commit hooks verify that the linter and tests pass when committing.
+
 ## Get started
 
-1. Install dependencies
+Install dependencies
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-2. Start the app
+Start the app
 
-   ```bash
-    npx expo start
-   ```
+iOS
+
+```bash
+ pnpm ios
+```
+
+Android
+
+```bash
+ pnpm ios
+```
 
 In the output, you'll find options to open the app in a
 
@@ -26,16 +62,6 @@ In the output, you'll find options to open the app in a
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
 ## Learn more
 

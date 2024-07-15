@@ -1,4 +1,3 @@
-import bottomTabBar from '@/components/bottom-tab-bar';
 import { createTheme } from '@shopify/restyle';
 import { Platform } from 'react-native';
 
@@ -127,7 +126,7 @@ export const theme = createTheme({
       lineHeight: 24,
     },
     semiBold: {
-      fontFamily: 'Inter-medium',
+      fontFamily: 'Inter-Medium',
       ...(Platform.OS === 'web' && {
         fontFamily: 'Inter, sans-serif',
         fontWeight: '500',
@@ -154,13 +153,33 @@ export const theme = createTheme({
       lineHeight: 32,
     },
     subtitle: {
-      fontFamily: 'Inter-medium',
+      fontFamily: 'Inter-Medium',
       ...(Platform.OS === 'web' && {
         fontFamily: 'Inter, sans-serif',
         fontWeight: '500',
       }),
       fontSize: 20,
       lineHeight: 24,
+    },
+    details: {
+      fontFamily: 'Inter-Medium',
+      ...(Platform.OS === 'web' && {
+        fontFamily: 'Inter, sans-serif',
+        fontWeight: '500',
+      }),
+      color: 'primary',
+      fontSize: 14,
+      lineHeight: 16,
+    },
+    price: {
+      fontFamily: 'Inter-Medium',
+      ...(Platform.OS === 'web' && {
+        fontFamily: 'Inter, sans-serif',
+        fontWeight: '500',
+      }),
+      color: 'primary',
+      fontSize: 14,
+      lineHeight: 20,
     },
   },
 });

@@ -8,18 +8,17 @@ import {
   PressableProps,
   Platform,
 } from 'react-native';
-import { useTheme } from '@shopify/restyle';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
 
-import { Theme } from '@/styles/themes';
+import useTheme from '@/hooks/useTheme';
 import { withEaseOutCirc, withEaseOutExpo, withEaseOutQuad } from '@/styles/timings';
-
-import Icon, { FeatherIconNames, IconProps } from '../icon';
 import { interactiveElevationChange } from '@/styles/shadow';
+
+import Icon, { FeatherIconNames } from '../icon';
 
 export const buttonVariants = ['primary', 'secondary', 'highlight'] as const;
 export const buttonSizes = ['s', 'm', 'l', 'xl'] as const;
@@ -105,7 +104,7 @@ export function Button(props: ButtonProps) {
     // ...rest
   } = props;
 
-  const theme = useTheme<Theme>();
+  const theme = useTheme();
 
   const press = useSharedValue(false);
   const hover = useSharedValue(false);

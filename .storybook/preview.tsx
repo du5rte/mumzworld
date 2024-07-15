@@ -1,11 +1,10 @@
-import React, { Suspense } from 'react';
+import { ThemeProvider } from '@shopify/restyle';
+import { DocsContainer } from '@storybook/blocks';
 import type { Preview } from '@storybook/react';
 import { themes } from '@storybook/theming';
-import { DocsContainer } from '@storybook/blocks';
-import type { DocsContextProps } from '@storybook/blocks';
-import { useDarkMode, DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
-import { ThemeProvider } from '@shopify/restyle';
+import React, { Suspense } from 'react';
 import { I18nextProvider } from 'react-i18next';
+import { DARK_MODE_EVENT_NAME, useDarkMode } from 'storybook-dark-mode';
 
 import i18n from '../locales/i18next-storybook';
 import { darkTheme, lightTheme } from '../styles/themes';

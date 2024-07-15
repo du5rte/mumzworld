@@ -26,7 +26,7 @@ export default function ProfileTab() {
           <Switch value={state} onValueChange={setState} />
         </Box>
 
-        <Box flexDirection="row" justifyContent="space-between">
+        <Box flexDirection="row" justifyContent="space-between" alignItems="center">
           <Text>{t('switchLanguage')}</Text>
           <Box flexDirection="row">
             <Button

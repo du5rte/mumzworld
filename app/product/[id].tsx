@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { StyleSheet } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   interpolate,
   interpolateColor,
@@ -8,22 +9,21 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useRecoilState } from 'recoil';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRecoilState } from 'recoil';
 
-import DATA from '@/data/colors.json';
-import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
-import Button from '@/components/button';
-import Box from '@/components/box';
 import { TAB_BAR_MARGIN } from '@/components/bottom-tab-bar/bottom-tab-bar-constants';
+import Box from '@/components/box';
+import Button from '@/components/button';
+import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
+import DATA from '@/data/colors.json';
 
 function getItemById(id: string) {
   return DATA.find((item) => item.id === id);
 }
 
 export default function ProductScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, image } = useLocalSearchParams<{ id: string; image: string }>();
   const [, setBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
 
   const insets = useSafeAreaInsets();
@@ -89,6 +89,7 @@ export default function ProductScreen() {
 
   const animatedContentStyle = useAnimatedStyle(() => {
     return {
+      flex: 1,
       opacity: opacity.value,
     };
   });
@@ -98,12 +99,13 @@ export default function ProductScreen() {
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View style={[{ flex: 1 }, animatedStyle]} sharedTransitionTag={id + 'parent'}>
-        <Animated.View
+        <Animated.Image
+          source={{ uri: image }}
           style={[styles.image, { backgroundColor: item?.color }]}
           sharedTransitionTag={id + 'child'}
         />
 
-        <Animated.View style={animatedContentStyle}></Animated.View>
+        <Animated.View style={animatedContentStyle}>{/* <ProductDetails /> */}</Animated.View>
 
         <Box
           position="absolute"

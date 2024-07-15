@@ -1,60 +1,48 @@
-import { FlatList, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { router } from 'expo-router';
-import Animated from 'react-native-reanimated';
-
-import DATA from '@/data/colors.json';
+import Box from '@/components/box';
+import ProductList from '@/components/product-list';
 import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
+import { useBottomTabBarPadding } from '@/hooks/useBottomTabBarPadding';
+import { ProductSummary } from '@/types/product-summary';
+import { router } from 'expo-router';
 import { useRecoilState } from 'recoil';
+import { useProducts } from '@/hooks/useProducts';
 
 export default function HomeScreen() {
-  const { width } = useWindowDimensions();
   const [, setBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
+  const bottomTabBarPadding = useBottomTabBarPadding();
 
-  const gap = 8;
-  const numColumns = 3;
-  const itemSize = (width - (numColumns - 1) * gap) / numColumns;
+  const { products, error, isLoading, refresh } = useProducts();
+
+  function handleRouteToProduct(product: ProductSummary) {
+    setBottomTabBarContentHidden(true);
+
+    router.navigate({
+      pathname: '/product/[id]',
+      params: {
+        id: product.id,
+        image: product.image,
+      },
+    });
+  }
+
+  const contentContainerStyle = { paddingBottom: bottomTabBarPadding };
+
+  // TODO: add skeleton loading
+  if (error) return <Box flex={1} />;
+  if (isLoading) return <Box flex={1} />;
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={DATA}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Pressable
-            onPress={() => {
-              setBottomTabBarContentHidden(true);
-              router.navigate({
-                pathname: '/product/[id]',
-                params: {
-                  id: item.id,
-                },
-              });
-            }}>
-            <Animated.View style={styles.wrapper} sharedTransitionTag={item.id + 'parent'}>
-              <Animated.View
-                style={{
-                  height: itemSize,
-                  width: itemSize,
-                  backgroundColor: item.color,
-                }}
-                sharedTransitionTag={item.id + 'child'}
-              />
-            </Animated.View>
-          </Pressable>
-        )}
-        numColumns={numColumns}
-        contentContainerStyle={{ gap }}
-        columnWrapperStyle={{ gap }}
+    <Box flex={1} backgroundColor="surface">
+      <ProductList
+        list={products}
+        onItemPress={handleRouteToProduct}
+        refreshing={isLoading}
+        onRefresh={refresh}
+        contentContainerStyle={contentContainerStyle}
+        // Used for reanimated shared transition
+        productItemParentSharedTransitionTag={'parent'}
+        productItemChildSharedTransitionTag={'child'}
       />
-    </View>
+    </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  wrapper: {
-    backgroundColor: 'white',
-  },
-});

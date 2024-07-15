@@ -3,6 +3,7 @@
     "app": {
       "name": "mumzworld"
     },
+    "currency": "{{val, currency(USD)}}",
     "languages": {
       "en": "English",
       "ar": "Arabic"

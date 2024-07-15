@@ -10,8 +10,7 @@ import Animated, {
   withDelay,
 } from 'react-native-reanimated';
 import { useRecoilState } from 'recoil';
-import { useTheme } from '@shopify/restyle';
-import { Theme } from '@/styles/themes';
+import useTheme from '@/hooks/useTheme';
 import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
 import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
 import { withEaseOutQuad, withEaseOutSin } from '@/styles/timings';
@@ -22,7 +21,6 @@ import {
   TAB_BAR_MARGIN,
   TAB_ICON_SIZE,
 } from './bottom-tab-bar-constants';
-import Box, { BoxProps } from '../box';
 import Circle from '../circle';
 
 export type FeatherIconName = keyof typeof Feather.glyphMap;
@@ -47,7 +45,7 @@ export interface TabItemProps extends Tab {
 export function TabItem(props: TabItemProps) {
   const { label, icon, focused, onPress, onLongPress } = props;
 
-  const theme = useTheme<Theme>();
+  const theme = useTheme();
 
   return (
     <TouchableOpacity
@@ -86,7 +84,7 @@ export function TabBar(props: TabBarProps) {
     hideTabs,
     sharedTransitionTag,
   } = props;
-  const theme = useTheme<Theme>();
+  const theme = useTheme();
 
   // Used to store the x position of each tab button
   const tabsPositionsX = useSharedValue<number[]>([0, 0, 0, 0, 0]);

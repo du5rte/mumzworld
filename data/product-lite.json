@@ -1,0 +1,99 @@
+{
+  "brand": 22915,
+  "brand_info": {
+    "title": "Totter & Tumble",
+    "__typename": "BrandInfo"
+  },
+  "categories": [
+    { "name": "Bedroom", "__typename": "CategoryTree" },
+    { "name": "Decor & Accessories", "__typename": "CategoryTree" },
+    { "name": "Rugs & Playmats", "__typename": "CategoryTree" },
+    { "name": "Toys", "__typename": "CategoryTree" },
+    { "name": "Indoor Play & Activity", "__typename": "CategoryTree" },
+    { "name": "Play Rugs & Mats", "__typename": "CategoryTree" }
+  ],
+  "id": 261480,
+  "is_yalla": ["AE"],
+  "low_stock_qty": null,
+  "name": "Totter & Tumble - The Rambler Playmat",
+  "price": {
+    "regularPrice": {
+      "amount": {
+        "currency": "AED",
+        "value": 946.627501,
+        "__typename": "Money"
+      },
+      "__typename": "Price"
+    },
+    "__typename": "ProductPrices"
+  },
+  "price_range": {
+    "minimum_price": {
+      "discount": {
+        "amount_off": 63.14,
+        "percent_off": 6.67,
+        "__typename": "ProductDiscount"
+      },
+      "final_price": {
+        "currency": "AED",
+        "value": 883.491001,
+        "__typename": "Money"
+      },
+      "regular_price": {
+        "currency": "AED",
+        "value": 946.627501,
+        "__typename": "Money"
+      },
+      "__typename": "ProductPrice"
+    },
+    "__typename": "PriceRange"
+  },
+  "base_price_range": {
+    "minimum_price": {
+      "final_price": {
+        "currency": "AED",
+        "value": 883.49,
+        "__typename": "Money"
+      },
+      "regular_price": {
+        "currency": "AED",
+        "value": 946.63,
+        "__typename": "Money"
+      },
+      "__typename": "ProductPrice"
+    },
+    "__typename": "PriceRange"
+  },
+  "usd_price_range": {
+    "minimum_price": {
+      "final_price": {
+        "currency": "USD",
+        "value": 240.57,
+        "__typename": "Money"
+      },
+      "__typename": "ProductPrice"
+    },
+    "__typename": "PriceRange"
+  },
+  "product_label": {
+    "active_from": "",
+    "active_to": "",
+    "background_color": "",
+    "label_id": null,
+    "label_text": "",
+    "name": "",
+    "text_color": "",
+    "__typename": "ProductLabel"
+  },
+  "sku": "PGT-STD_RAMBLER-GLOBET",
+  "small_image": {
+    "url": "https://www.mumzworld.com/media/catalog/product/cache/8bf0fdee44d330ce9e3c910273b66bb2/p/g/pgt-std_rambler-globet-totter-tumble-the-rambler-playmat-1644490214.jpg",
+    "__typename": "ProductImage"
+  },
+  "stock_status": "IN_STOCK",
+  "type_id": "simple",
+  "uid": "MjYxNDgw",
+  "url_key": "totter-tumble-the-rambler-playmat",
+  "url_suffix": "",
+  "__typename": "SimpleProduct"
+}
