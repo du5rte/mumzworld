@@ -4,9 +4,15 @@ Welcome to **'Home Test'** Mumzworld App 👋
 
 [![Test](https://github.com/du5rte/mumzworld/actions/workflows/test.yml/badge.svg)](https://github.com/du5rte/mumzworld/actions/workflows/test.yml)
 
-[![Test](https://github.com/du5rte/mumzworld/actions/workflows/test.yml/badge.svg)](https://github.com/du5rte/mumzworld/actions/workflows/test.yml)
+![screenshot](assets/images/banner.png)
 
-Watch demo video at [vimeo.com/988209706](https://vimeo.com/988209706)
+👉 Watch demo video at [vimeo.com/988209706](https://vimeo.com/988209706)
+
+Scan the following QR code to preview this update:
+
+<img height="200" src="assets/images/eas-update.svg">
+
+Run on Expo Go with this [link](https://expo.dev/preview/update?message=feat%3A%20v1&updateRuntimeVersion=1.0.0&createdAt=2024-07-22T03%3A40%3A48.513Z&slug=exp&projectId=f643fa24-f3ea-4886-b2aa-a611921e4874&group=c60b0edf-40d4-4387-87ca-0901617f8357)
 
 ## Features
 
