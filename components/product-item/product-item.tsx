@@ -1,74 +1,77 @@
-import React, { useMemo } from 'react';
-import { Pressable } from 'react-native';
-import Animated from 'react-native-reanimated';
-
-import useTheme from '@/hooks/useTheme';
-import { ProductSummary } from '@/types/product-summary';
-import { generateRandomFloat } from '@/utils/random';
-import { generateRandomHumanIntegers } from '@/utils/random/random-human-readable';
+import React from 'react';
+import { Pressable, StyleSheet } from 'react-native';
+import { FormattedSimpleProduct } from '@/types/product';
+import StarIcon from '@/components/custom-icons/star';
+import { Image } from 'expo-image';
 import Box from '../box';
-import { ProductPrice } from '../product-price';
-import ProductRating from '../product-rating';
 import Text from '../text';
-
-export const PRODUCT_ITEM_CONTENT_HEIGHT = 54;
+import { PRODUCT_ITEM_HEIGHT, PRODUCT_ITEM_IMAGE_HEIGHT } from './product-item-constants';
+import Price from '../price';
 
 export interface ProductItemProps {
-  width: number;
-  height: number;
-  product: ProductSummary;
-  onPress: (product: ProductSummary) => void;
-  productItemParentSharedTransitionTag?: string;
-  productItemSharedTransitionTagChild?: string;
+  product: FormattedSimpleProduct;
+  onPress: (product: FormattedSimpleProduct) => void;
 }
 
 export function ProductItem(props: ProductItemProps) {
-  const { product, width: itemWidth, height: itemHeight, onPress } = props;
-
-  const theme = useTheme();
-
-  // Generate a mock up rating between 3 and 5
-  // e.g. 3.9 or 4.2 or 5.0
-  const rating = useMemo(() => generateRandomFloat(3, 5, 1).toFixed(1), []);
-  const reviews = useMemo(() => generateRandomHumanIntegers(16, 1568), []);
-  // const sold = generateRandomHumanIntegers(82, 3780);
+  const { product, onPress } = props;
+  const handlePress = () => {
+    if (onPress) onPress(product);
+  };
 
   return (
-    <Pressable
-      onPress={() => {
-        if (onPress) onPress(product);
-      }}>
-      <Animated.View
-        style={{
-          width: itemWidth,
-          height: itemHeight,
-          borderRadius: theme.borderRadii.s,
-          backgroundColor: theme.colors.background,
-          overflow: 'hidden',
-        }}
-        sharedTransitionTag={props.productItemParentSharedTransitionTag}>
-        <Animated.Image
-          style={{
-            width: itemWidth,
-            height: itemWidth,
-          }}
-          source={product.image ? { uri: product.image } : undefined}
-          sharedTransitionTag={props.productItemSharedTransitionTagChild}
+    <Pressable style={styles.container} onPress={handlePress}>
+      <Box flex={1} backgroundColor="background" borderRadius="s" height={PRODUCT_ITEM_HEIGHT}>
+        <Image
+          source={{ uri: product.image }}
+          style={styles.image}
+          placeholderContentFit="fill"
+          contentFit="contain"
+          priority="high"
         />
 
-        <Box height={PRODUCT_ITEM_CONTENT_HEIGHT} padding="xs">
-          <Text color="primary" numberOfLines={1} lineHeight={24}>
+        <Box padding="s" gap="s">
+          <Box flexDirection="row" justifyContent="space-between" alignItems="center">
+            <Text variant="detail" color="secondary">
+              {product.brand}
+            </Text>
+
+            <Box flexDirection="row" alignItems="center" gap="xs">
+              <StarIcon />
+              <Text variant="price" lineHeight={20}>
+                {product.rating}
+              </Text>
+            </Box>
+          </Box>
+
+          <Text variant="title" numberOfLines={2} lineHeight={20}>
             {product.name}
           </Text>
 
-          <Box flexDirection="row" alignItems="center" gap="xs">
-            <ProductPrice finalPrice={product.finalPrice} regularPrice={product.regularPrice} />
-            <ProductRating {...{ rating, reviews }} />
+          <Box>
+            <Price
+              value={product.finalPrice}
+              variant={product.regularPrice ? 'sale' : 'regular'}
+              lineHeight={20}
+            />
+            {product.regularPrice && (
+              <Price value={product.regularPrice} variant="line-through" lineHeight={20} />
+            )}
           </Box>
         </Box>
-      </Animated.View>
+      </Box>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: PRODUCT_ITEM_HEIGHT,
+  },
+  image: {
+    height: PRODUCT_ITEM_IMAGE_HEIGHT,
+  },
+});
 
 export default ProductItem;

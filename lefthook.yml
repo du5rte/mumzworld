@@ -15,7 +15,10 @@ pre-commit:
   commands:
     lint:
       glob: "*.{js,csj,mjs,ts,jsx,tsx,mdx}"
-      run: pnpm eslint {staged_files}
+      run: pnpm lint {staged_files}
+    check-types:
+      glob: "*.{js,csj,mjs,ts,jsx,tsx}"
+      run: pnpm check-types
     test:
       glob: "*.{js,csj,mjs,ts,jsx,tsx,mdx}"
       run: pnpm jest --silent --findRelatedTests {staged_files} --passWithNoTests
@@ -24,11 +27,15 @@ pre-push:
   follow: true
   commands:
     tests:
-      run: pnpm test
+      run: pnpm expo export
 
 #
 #   After making changes you need to sync the hooks with your Git project for them to take effect. 
 #   Run the following command in your terminal:
 #
 #   $ pnpm lefthook install
+#
+#   To test hook without committing
+#
+#   $ pnpm lefthook run pre-commit
 #

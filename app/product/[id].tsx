@@ -1,153 +1,56 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { StyleSheet } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, {
-  interpolate,
-  interpolateColor,
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { Platform, ScrollView } from 'react-native';
+import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRecoilState } from 'recoil';
-
 import { TAB_BAR_MARGIN } from '@/components/bottom-tab-bar/bottom-tab-bar-constants';
 import Box from '@/components/box';
-import Button from '@/components/button';
-import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
-import DATA from '@/data/colors.json';
-
-function getItemById(id: string) {
-  return DATA.find((item) => item.id === id);
-}
+import { useProduct } from '@/hooks/useProduct';
+import ProductDetails from '@/components/product-details';
+import ProductDetailsSkeleton from '@/components/product-details/product-details-skeleton';
+import { useBottomTabBarPadding } from '@/hooks/useBottomTabBarPadding';
+import ProductCarousel from '@/components/product-carousel';
+import ProductScreenNavbar from '@/components/product-screen-navbar';
+import ScreenPlaceholder from '@/components/screen-placeholder';
+import { useTranslation } from 'react-i18next';
 
 export default function ProductScreen() {
-  const { id, image } = useLocalSearchParams<{ id: string; image: string }>();
-  const [, setBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
-
   const insets = useSafeAreaInsets();
+  const paddingBottom = useBottomTabBarPadding();
+  const { t } = useTranslation('translation', { keyPrefix: 'devmenu' });
 
-  const PADDING_BOTTOM = Math.max(insets.bottom, TAB_BAR_MARGIN);
+  const { product, error, loading } = useProduct();
 
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
-  const opacity = useSharedValue(1);
-  const scale = useSharedValue(1);
+  // Because of modal navigation on iOS this view has inset but on Android it does
+  const insetTop = Math.max(Platform.OS ? 0 : insets.top, 20);
+  const bottomPosition = Math.max(insets.bottom, TAB_BAR_MARGIN);
 
   const handleGoBack = () => {
-    setBottomTabBarContentHidden(false);
-
     router.back();
   };
 
-  const gesture = Gesture.Pan()
-    .onUpdate((value) => {
-      translateX.value = value.translationX * 0.8;
-      translateY.value = value.translationY * 0.8;
-
-      // Calculate the distance from the start point
-      // TODO: calculate from original position
-      const distance = Math.sqrt(
-        value.translationX * value.translationX + value.translationY * value.translationY
-      );
-
-      // Calculate a min and max value
-      const scaleValue = Math.min(Math.max(distance / 100, 1), 0.9);
-
-      // scale the view down to 90% when the distance is 100
-      // TODO: just use distance or spring
-      scale.value = withTiming(scaleValue, { duration: 100 });
-    })
-    .onEnd(() => {
-      // If the view is dragged than 50px from original position close the modal
-      if (translateY.value > 50 || translateX.value > 90) {
-        opacity.value = 0;
-        runOnJS(handleGoBack)();
-      }
-      // Else return to original position
-      else {
-        translateX.value = withTiming(0, { duration: 300 });
-        translateY.value = withTiming(0, { duration: 300 });
-        scale.value = withTiming(1, { duration: 300 });
-        opacity.value = withTiming(1, { duration: 400 });
-      }
-    });
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: translateX.value },
-        { translateY: translateY.value },
-        { scale: scale.value },
-      ],
-      backgroundColor: interpolateColor(opacity.value, [0, 1], ['transparent', 'white']),
-      borderRadius: interpolate(opacity.value, [0, 1], [0, 20]),
-      overflow: 'hidden',
-    };
-  });
-
-  const animatedContentStyle = useAnimatedStyle(() => {
-    return {
-      flex: 1,
-      opacity: opacity.value,
-    };
-  });
-
-  const item = getItemById(id!);
+  if (error) {
+    return (
+      <ScreenPlaceholder
+        icon="alert-triangle"
+        description={t('error.loading')}
+        style={{ paddingBottom }}
+      />
+    );
+  }
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={[{ flex: 1 }, animatedStyle]} sharedTransitionTag={id + 'parent'}>
-        <Animated.Image
-          source={{ uri: image }}
-          style={[styles.image, { backgroundColor: item?.color }]}
-          sharedTransitionTag={id + 'child'}
-        />
+    <Box flex={1} style={{ paddingTop: insetTop }}>
+      {loading || !product ? (
+        <ProductDetailsSkeleton />
+      ) : (
+        <ScrollView contentContainerStyle={{ paddingBottom }}>
+          <ProductCarousel data={product.mediaGallery} />
+          <ProductDetails product={product} />
+        </ScrollView>
+      )}
 
-        <Animated.View style={animatedContentStyle}>{/* <ProductDetails /> */}</Animated.View>
-
-        <Box
-          position="absolute"
-          bottom={PADDING_BOTTOM}
-          left={0}
-          right={0}
-          flexDirection="row"
-          gap={'m'}
-          justifyContent="center"
-          alignItems="center">
-          <Button icon="share" variant="secondary" size="xl" shape="circle" />
-          <Button
-            title="Add to bag"
-            icon="shopping-cart"
-            variant="primary"
-            shape="round"
-            size="xl"
-            onPress={handleGoBack}
-            sharedTransitionTag={'bottom-tab-bar'}
-          />
-          <Button icon="heart" variant="secondary" size="xl" shape="circle" />
-        </Box>
-      </Animated.View>
-    </GestureDetector>
+      <Box position="absolute" left={0} right={0} style={{ bottom: bottomPosition }}>
+        <ProductScreenNavbar onPurchage={handleGoBack} />
+      </Box>
+    </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  image: {
-    width: '100%',
-    height: 300,
-    overflow: 'hidden',
-  },
-  contentContainer: {
-    padding: 32,
-    gap: 16,
-  },
-  sectionContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-});

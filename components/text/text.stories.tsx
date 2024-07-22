@@ -30,27 +30,33 @@ export const Regular: Story = {
     children: 'Regular',
   },
 };
-export const SemiBold: Story = {
+export const Header: Story = {
   args: {
-    children: 'Semi-Bold',
-    variant: 'semiBold',
-  },
-};
-export const Bold: Story = {
-  args: {
-    children: 'Bold',
-    variant: 'bold',
-  },
-};
-export const Subtitle: Story = {
-  args: {
-    children: 'Subtitle',
-    variant: 'subtitle',
+    children: 'Header',
+    variant: 'header',
   },
 };
 export const Title: Story = {
   args: {
     children: 'Title',
     variant: 'title',
+  },
+};
+export const Info: Story = {
+  args: {
+    children: 'Info',
+    variant: 'info',
+  },
+};
+export const Description: Story = {
+  args: {
+    children: 'Description',
+    variant: 'description',
+  },
+};
+export const Detail: Story = {
+  args: {
+    children: 'Detail',
+    variant: 'detail',
   },
 };

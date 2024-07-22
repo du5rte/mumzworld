@@ -27,14 +27,14 @@ export function ProductStats(props: ProductStatsProps) {
     elements.push(
       <Box flexDirection="row" alignItems="center" gap="xs" key="ratings">
         <StarIcon />
-        <Text variant="details">{t('rating', { rating })}</Text>
+        <Text variant="info">{t('rating', { rating })}</Text>
       </Box>
     );
   }
 
   if ('reviews' in props) {
     elements.push(
-      <Text variant="details" key="reviews">
+      <Text variant="info" key="reviews">
         {t('reviews', { reviews })}
       </Text>
     );
@@ -42,7 +42,7 @@ export function ProductStats(props: ProductStatsProps) {
 
   if ('sold' in props) {
     elements.push(
-      <Text variant="details" key="sold">
+      <Text variant="info" key="sold">
         {t('sold', { sold })}
       </Text>
     );
@@ -50,7 +50,7 @@ export function ProductStats(props: ProductStatsProps) {
 
   return (
     <Box>
-      <Box flexDirection="row" alignItems="center" justifyContent="flex-start" gap="s">
+      <Box flexDirection="row" alignItems="center" justifyContent="flex-start" gap="m">
         {elements.map((element, index) => (
           <React.Fragment key={index}>
             {element}

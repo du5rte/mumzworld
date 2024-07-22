@@ -3,13 +3,28 @@
     "app": {
       "name": "mumzworld"
     },
-    "currency": "{{val, currency(USD)}}",
+    "price": "{{val, currency}}",
+    "promo": "{{val, percent}}% OFF",
+    "currency": "{{val, currency}}",
+    "fraction": "{{val}}<secondary>/5<secondary>",
     "languages": {
       "en": "English",
       "ar": "Arabic"
     },
+    "currencies": {
+      "usd": {
+        "symbol": "$",
+        "name": "USD"
+      },
+      "aed": {
+        "symbol": "د.إ",
+        "name": "AED"
+      }
+    },
     "actions": {
-      "press": "Press"
+      "press": "Press",
+      "showMore": "Show more",
+      "hide": "Hide"
     },
     "navigation": {
       "home": "Home",
@@ -20,7 +35,8 @@
     },
     "home": {
       "title": "Home",
-      "description": "Welcome to mumzworld"
+      "description": "Welcome to mumzworld",
+      "toTopDescription": "Thanks for shopping with us\nreturn to top"
     },
     "shop": {
       "title": "Shop",
@@ -39,19 +55,28 @@
       "description": "Sign in to access your account"
     },
     "devmenu": {
-      "title": "Developer Menu",
-      "description": "Developer options",
       "hi": "Hi",
-      "showBottomTabBar": "Show BottomTabBar",
-      "switchLanguage": "Switch Language",
-      "english": "English 🇺🇸",
-      "arabic": "Arabic 🇦🇪",
+      "description": "It's not fun being stuck... but checkout this dev menu! 👨‍💻🕹️",
+      "languageLabel": "Switch Language",
+      "darkModeLabel": "Toggle dark mode",
+      "bottomTabBarDescription": "You can hide/show the Bottom TabBar",
+      "bottomTabBarLabel": "Show BottomTabBar",
+      "returnDescription": "Easter egg found 🐣 You can now escape!",
       "return": "Return"
     },
     "product": {
+      "description": "Description",
       "rating": "{{rating}} Rating",
       "reviews": "{{reviews}} Reviews",
-      "sold": "{{sold}} Sold"
+      "sold": "{{sold}} Sold",
+      "value": "Value",
+      "durable": "Durable",
+      "fast": "Fast",
+      "addToBag": "Add to Bag",
+      "exploreMoreBrand": "Explore more products by {{brand}}"
+    },
+    "error": {
+      "loading": "Error loading data\nRefresh or try again later"
     }
   }
 }

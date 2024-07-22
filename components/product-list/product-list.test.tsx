@@ -1,30 +1,26 @@
-import { fireEvent, render, screen } from '@/utils/test-utils';
+import { fireEvent, render, screen } from '@/utils/tests/react-native';
 import ProductList from './product-list';
 
-describe('ProductList', () => {
-  const mockList = [
-    { id: 1, name: 'Product 1' },
-    { id: 2, name: 'Product 2' },
-    { id: 3, name: 'Product 3' },
-  ];
+import product from '@/mocks/simple-products-en-usd.json';
 
+describe('ProductList', () => {
   it('should render the list of products', () => {
-    render(<ProductList list={mockList} onItemPress={() => {}} />);
+    render(<ProductList products={product} onItemPress={() => {}} />);
 
     // Assert that each product item is rendered
-    mockList.forEach((product) => {
+    product.forEach((product) => {
       expect(screen.getByText(product.name)).toBeDefined();
     });
   });
 
   it('should call the onItemPress callback when a product item is pressed', () => {
     const mockOnItemPress = jest.fn();
-    render(<ProductList list={mockList} onItemPress={mockOnItemPress} />);
+    render(<ProductList products={product} onItemPress={mockOnItemPress} />);
 
     // Simulate pressing the first product item
-    fireEvent.press(screen.getByText(mockList[0].name));
+    fireEvent.press(screen.getByText(product[0].name));
 
     // Assert that the onItemPress callback is called with the correct product
-    expect(mockOnItemPress).toHaveBeenCalledWith(mockList[0]);
+    expect(mockOnItemPress).toHaveBeenCalledWith(product[0]);
   });
 });

@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
-import { render, screen } from '@/utils/test-utils';
+import { render, screen } from '@/utils/tests/react-native';
 
 import Box from './box';
 

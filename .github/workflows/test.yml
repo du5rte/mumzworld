@@ -31,5 +31,11 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Lint
+        run: pnpm check-types
+
       - name: Test
         run: pnpm test
+
+      - name: Build
+        run: pnpm expo export

@@ -1,17 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
+import product from '@/mocks/product-en-usd.json';
 import { ProductItem } from './product-item';
-import { ProductSummary } from '@/types/product-summary';
-
-const productItemMock = {
-  id: 60484,
-  name: 'Play And Go - Playmat & Storage Bag World Map Print - White',
-  brand: 'Play & Go',
-  sku: 'CNS-PGMAP',
-  finalPrice: '$51.46',
-  image: '',
-};
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof ProductItem> = {
@@ -27,7 +18,7 @@ const meta: Meta<typeof ProductItem> = {
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: {
-    product: productItemMock as ProductSummary,
+    product,
     onPress: fn(),
   },
 };
