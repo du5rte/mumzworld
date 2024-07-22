@@ -1,104 +1,119 @@
-import { PRODUCT_ITEM_CONTENT_HEIGHT, ProductItem } from '@/components/product-item';
-import { SimpleProduct } from '@/schema';
-import { ProductSummary } from '@/types/product-summary';
-import { calculateGridLayout } from '@/utils/dimensions';
-import { mapSimpleProductMapper } from '@/utils/product';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { FlatList, FlatListProps, useWindowDimensions } from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import { FlatList, FlatListProps } from 'react-native';
+import { ProductItem } from '@/components/product-item';
+import { FormattedSimpleProduct } from '@/types/product';
+import useTheme from '@/hooks/useTheme';
+import { PRODUCT_ITEM_HEIGHT } from '../product-item/product-item-constants';
+import ProductListFooter from './product-list-footer';
+
+/**
+ * Because this component is used to render large lists of products,
+ * it is important to optimize its performance.
+ *
+ * A. Avoid anonymous arrow function on renderItem props:
+ *
+ * Move out the renderItem function to the outside of render function, or wrap it with a `useCallback`
+ * so it won't recreate itself each time render function called.
+ *
+ * B. Add initialNumToRender prop on your FlatList
+ *
+ * It will define how many items will be rendered for the first time
+ *
+ * C. Define the key prop on your Item Component
+ *
+ * It will avoid re-render on dynamically added/removed items with defined key on each item. Make sure it is unique, don't use index as the key! You can also using keyExtractor as an alternative.
+ *
+ * D. Optional optimization
+ *
+ * Try use `getItemLayout` to skip measurement of dynamic content. It will improve performance by avoiding the measurement process.
+ */
 
 export interface ProductListProps
-  extends Omit<FlatListProps<SimpleProduct>, 'data' | 'renderItem'> {
-  list: SimpleProduct[];
-  onItemPress: (product: ProductSummary) => void;
-  productItemParentSharedTransitionTag?: string;
-  productItemChildSharedTransitionTag?: string;
+  extends Omit<FlatListProps<FormattedSimpleProduct>, 'data' | 'renderItem'> {
+  products: FormattedSimpleProduct[];
+  onItemPress: (product: FormattedSimpleProduct) => void;
 }
 
 function ProductList(props: ProductListProps) {
   const {
-    list,
+    products,
     onItemPress,
     contentContainerStyle: contentContainerStyleExternal,
-    productItemParentSharedTransitionTag: parentTag,
-    productItemChildSharedTransitionTag: childTag,
     ...rest
   } = props;
 
-  const { i18n } = useTranslation();
-  const { width } = useWindowDimensions();
+  const flatList = useRef<FlatList<FormattedSimpleProduct>>(null);
+
+  const theme = useTheme();
 
   // Define the gap between grid items
   const gap = 8;
-  // Calculate the number of columns and the width of each item depending on the screen width
-  const { numColumns, itemWidth } = calculateGridLayout(width, 8);
+  const numColumns = 2;
+
   // Style FlatList with the calculated values, `bottomTabBarPadding` makes sure the last item is visible
   const contentContainerStyle = [
-    { paddingTop: gap, paddingLeft: gap, gap },
+    {
+      paddingTop: gap,
+      paddingHorizontal: gap,
+      gap,
+      backgroundColor: theme.colors.surface,
+    },
     contentContainerStyleExternal,
   ];
   const columnWrapperStyle = { gap };
 
-  // (the default) will render the visible screen area plus up to 10 screens above and 10 below the viewport. Reducing this number will reduce memory consumption and may improve performance, but will increase the chance that fast scrolling may reveal momentary blank areas of unrendered content.
-  // Optimizing the render by reducing the number of:
-  // Maximum items to render per batch
-  const maxToRenderPerBatch = 10;
-  // Initial items to render
-  const initialNumToRender = 20;
-  // Window size (number of screens above and below the viewport)
-  const windowSize = 5;
+  // Defined outside the render method for performance
+  const keyExtractor = (item: FormattedSimpleProduct) => item?.id?.toString() as string;
 
-  // Defined outside the render method
-  const keyExtractor = (item: SimpleProduct) => item?.id?.toString() as string;
-
-  // Calculate the height of each item based on the width of the screen and content
-  const itemHeight = itemWidth + PRODUCT_ITEM_CONTENT_HEIGHT;
-
-  // Manually setting the layout to avoid the measurement process
-  const getItemLayout = (data: ArrayLike<SimpleProduct> | null | undefined, index: number) => ({
-    length: itemHeight,
-    offset: itemHeight * index,
+  // Manually setting the layout to skip the measurement process and improve performance
+  const getItemLayout = (
+    data: ArrayLike<FormattedSimpleProduct> | null | undefined,
+    index: number
+  ) => ({
+    length: PRODUCT_ITEM_HEIGHT,
+    offset: PRODUCT_ITEM_HEIGHT * index,
     index,
   });
 
+  const moveToTop = useCallback(() => flatList.current?.scrollToIndex({ index: 0 }), []);
+
   // Defined the render method outside for performance
-  const renderItem = ({ item }: { item: SimpleProduct }) => {
-    // Map the graph product schema to a simpler product list item
-    const product = mapSimpleProductMapper(item, i18n) as ProductSummary;
+  // Wrapping the function in `useCallback` to avoid re-rendering
+  const renderItem = useCallback(
+    ({ item }: { item: FormattedSimpleProduct }) => {
+      return <ProductItem product={item} onPress={onItemPress} />;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [products]
+  );
 
-    const handlePress = () => {
-      if (onItemPress) onItemPress(product);
-    };
-
-    return (
-      <ProductItem
-        product={product}
-        width={itemWidth}
-        height={itemHeight}
-        onPress={handlePress}
-        // Used for reanimated shared transition
-        {...(parentTag && {
-          productItemParentSharedTransitionTag: item.id + parentTag,
-        })}
-        {...(childTag && {
-          productItemSharedTransitionTagChild: item.id + childTag,
-        })}
-      />
-    );
-  };
+  const listFooterComponent = useCallback(
+    () => <ProductListFooter list={products} onPress={moveToTop} />,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [products]
+  );
 
   return (
     <FlatList
-      data={list}
+      ref={flatList}
+      data={products}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
       getItemLayout={getItemLayout}
       numColumns={numColumns}
       contentContainerStyle={contentContainerStyle}
       columnWrapperStyle={columnWrapperStyle}
-      maxToRenderPerBatch={maxToRenderPerBatch}
-      initialNumToRender={initialNumToRender}
-      windowSize={windowSize}
+      initialNumToRender={10}
+      // Maximum items to render per batch
+      // (the default) will render the visible screen area plus up to 10 screens above and 10 below the viewport.
+      // Reducing this number will reduce memory consumption and may improve performance, but will increase the
+      // chance that fast scrolling may reveal momentary blank areas of unrendered content.
+      // This is a trade off between reducing the amount of items rendered at once and the performance of the list
+      // Or increase the number of items rendered so user never see blank images at cost of performance
+      maxToRenderPerBatch={10}
+      // Window size (number of screens above and below the viewport)
+      windowSize={5}
+      ListFooterComponent={listFooterComponent}
       {...rest}
     />
   );

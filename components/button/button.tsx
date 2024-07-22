@@ -4,7 +4,6 @@ import {
   GestureResponderEvent,
   NativeSyntheticEvent,
   NativeMouseEvent,
-  StyleSheet,
   PressableProps,
   Platform,
 } from 'react-native';
@@ -13,6 +12,7 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
+import { I18nManager } from 'react-native';
 
 import useTheme from '@/hooks/useTheme';
 import { withEaseOutCirc, withEaseOutExpo, withEaseOutQuad } from '@/styles/timings';
@@ -20,8 +20,8 @@ import { interactiveElevationChange } from '@/styles/shadow';
 
 import Icon, { FeatherIconNames } from '../icon';
 
-export const buttonVariants = ['primary', 'secondary', 'highlight'] as const;
-export const buttonSizes = ['s', 'm', 'l', 'xl'] as const;
+export const buttonVariants = ['primary', 'secondary', 'highlight', 'text'] as const;
+export const buttonSizes = ['xs', 's', 'm', 'l', 'xl'] as const;
 export const buttonIconPositions = ['left', 'right'] as const;
 export const buttonShapes = ['square', 'rectangle', 'round', 'circle'] as const;
 
@@ -31,6 +31,7 @@ export type ButtonIconPositions = (typeof buttonIconPositions)[number];
 export type ButtonShapes = (typeof buttonShapes)[number];
 
 const paddings: Record<ButtonSizes, number> = {
+  xs: 14,
   s: 16,
   m: 18,
   l: 24,
@@ -38,6 +39,7 @@ const paddings: Record<ButtonSizes, number> = {
 };
 
 const sizes: Record<ButtonSizes, number> = {
+  xs: 32,
   s: 40,
   m: 44,
   l: 56,
@@ -45,6 +47,7 @@ const sizes: Record<ButtonSizes, number> = {
 };
 
 const borderRadius: Record<ButtonSizes, number> = {
+  xs: 8,
   s: 10,
   m: 12,
   l: 15,
@@ -52,6 +55,7 @@ const borderRadius: Record<ButtonSizes, number> = {
 };
 
 const fontSizes: Record<ButtonSizes, number> = {
+  xs: 13,
   s: 14,
   m: 15,
   l: 16,
@@ -59,6 +63,7 @@ const fontSizes: Record<ButtonSizes, number> = {
 };
 
 const iconSizes: Record<ButtonSizes, number> = {
+  xs: 16,
   s: 18,
   m: 20,
   l: 22,
@@ -68,7 +73,6 @@ const iconSizes: Record<ButtonSizes, number> = {
 export interface ButtonProps extends PressableProps {
   title?: string;
   variant?: ButtonVariants;
-  textVariants?: keyof Theme['textVariants'];
   size?: ButtonSizes;
   shape?: ButtonShapes;
   disabled?: boolean;
@@ -82,7 +86,8 @@ export interface ButtonProps extends PressableProps {
   onPressOut?: PressableProps['onPress'];
   onHoverIn?: PressableProps['onHoverIn'];
   onHoverOut?: PressableProps['onHoverOut'];
-  sharedTransitionTag?: string;
+  entering?: any;
+  exiting?: any;
 }
 
 export function Button(props: ButtonProps) {
@@ -93,14 +98,16 @@ export function Button(props: ButtonProps) {
     disabled,
     title,
     icon,
-    iconPosition = 'left',
+    iconPosition = I18nManager.isRTL ? 'right' : 'left',
     elevate,
     onPress,
     onPressIn,
     onPressOut,
     onHoverIn,
     onHoverOut,
-    sharedTransitionTag,
+
+    entering,
+    exiting,
     // ...rest
   } = props;
 
@@ -137,12 +144,12 @@ export function Button(props: ButtonProps) {
         press.value ? theme.colors.highlightInvertPress : theme.colors.primaryInvert
       );
     }
-    if (variant === 'secondary') {
+    if (variant === 'secondary' || variant === 'text') {
       return withEaseOutQuad(
         press.value
           ? theme.colors.secondaryPress
           : hover.value
-            ? theme.colors.secondaryHover
+            ? theme.colors.secondary
             : theme.colors.secondaryInvert
       );
     }
@@ -247,16 +254,10 @@ export function Button(props: ButtonProps) {
       onHoverOut={handleHoverOut}
       disabled={disabled}
       testID={`button-${variant}${disabled ? '-disabled' : ''}`}>
-      <Animated.View style={animatedWrapperStyle}>
-        {/**
-         * This is a workaround to facilitate the shared transitions
-         * separating the background stops content being visible during transition
-         */}
-        <Animated.View
-          style={[StyleSheet.absoluteFill, animatedBackgroundStyle]}
-          sharedTransitionTag={sharedTransitionTag}
-        />
-
+      <Animated.View
+        style={[animatedWrapperStyle, animatedBackgroundStyle]}
+        entering={entering}
+        exiting={exiting}>
         {icon && iconPosition === 'left' && (
           <Animated.Text style={animatedIconStyle}>
             <Icon name={icon} size={iconSizes[size]} />

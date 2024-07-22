@@ -1,48 +1,48 @@
-import Box from '@/components/box';
-import ProductList from '@/components/product-list';
-import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
-import { useBottomTabBarPadding } from '@/hooks/useBottomTabBarPadding';
-import { ProductSummary } from '@/types/product-summary';
 import { router } from 'expo-router';
-import { useRecoilState } from 'recoil';
+import { useTranslation } from 'react-i18next';
+import ProductList from '@/components/product-list';
+import { useBottomTabBarPadding } from '@/hooks/useBottomTabBarPadding';
+import { FormattedSimpleProduct } from '@/types/product';
 import { useProducts } from '@/hooks/useProducts';
+import ScreenPlaceholder from '@/components/screen-placeholder';
+import ProductListSkeleton from '@/components/product-list/product-list-skeleton';
 
 export default function HomeScreen() {
-  const [, setBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
-  const bottomTabBarPadding = useBottomTabBarPadding();
+  const { t } = useTranslation('translation');
+  const paddingBottom = useBottomTabBarPadding();
 
-  const { products, error, isLoading, refresh } = useProducts();
+  const { products, error, loading, refresh } = useProducts();
 
-  function handleRouteToProduct(product: ProductSummary) {
-    setBottomTabBarContentHidden(true);
-
+  const handleRouteToProduct = (product: FormattedSimpleProduct) => {
     router.navigate({
       pathname: '/product/[id]',
       params: {
         id: product.id,
-        image: product.image,
       },
     });
+  };
+
+  if (error) {
+    return (
+      <ScreenPlaceholder
+        icon="alert-triangle"
+        description={t('error.loading')}
+        style={{ paddingBottom }}
+      />
+    );
   }
 
-  const contentContainerStyle = { paddingBottom: bottomTabBarPadding };
-
-  // TODO: add skeleton loading
-  if (error) return <Box flex={1} />;
-  if (isLoading) return <Box flex={1} />;
+  if (loading) {
+    return <ProductListSkeleton />;
+  }
 
   return (
-    <Box flex={1} backgroundColor="surface">
-      <ProductList
-        list={products}
-        onItemPress={handleRouteToProduct}
-        refreshing={isLoading}
-        onRefresh={refresh}
-        contentContainerStyle={contentContainerStyle}
-        // Used for reanimated shared transition
-        productItemParentSharedTransitionTag={'parent'}
-        productItemChildSharedTransitionTag={'child'}
-      />
-    </Box>
+    <ProductList
+      products={products}
+      onItemPress={handleRouteToProduct}
+      refreshing={loading}
+      onRefresh={refresh}
+      contentContainerStyle={{ paddingBottom }}
+    />
   );
 }

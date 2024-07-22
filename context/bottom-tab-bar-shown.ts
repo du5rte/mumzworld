@@ -1,6 +1,3 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
-export const bottomTabBarShown = atom({
-  key: 'bottomTabBarShown',
-  default: false,
-});
+export const bottomTabBarShownAtom = atom<boolean>(false);

@@ -1,27 +1,22 @@
 import React, { useMemo } from 'react';
-import { LayoutChangeEvent, TouchableOpacity, View } from 'react-native';
+import { I18nManager, LayoutChangeEvent, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs/src/types';
 import Feather from '@expo/vector-icons/Feather';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-  withDelay,
-} from 'react-native-reanimated';
-import { useRecoilState } from 'recoil';
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import useTheme from '@/hooks/useTheme';
-import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
-import { bottomTabBarContentHidden } from '@/context/bottom-tab-bar-content-hidden';
+import useBottomTabBarShown from '@/hooks/useBottomTabBarShownAtom';
 import { withEaseOutQuad, withEaseOutSin } from '@/styles/timings';
 import {
-  TAB_PADDING,
   TAB_SIZE,
   TAB_BAR_HEIGHT,
   TAB_BAR_MARGIN,
   TAB_ICON_SIZE,
 } from './bottom-tab-bar-constants';
 import Circle from '../circle';
+import Box from '../box';
+
+const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export type FeatherIconName = keyof typeof Feather.glyphMap;
 
@@ -59,7 +54,7 @@ export function TabItem(props: TabItemProps) {
         <Feather
           name={icon}
           size={TAB_ICON_SIZE}
-          color={focused ? theme.colors.primary : theme.colors.secondary}
+          color={focused ? theme.colors.primary : theme.colors.inactive}
         />
       </Circle>
     </TouchableOpacity>
@@ -71,21 +66,15 @@ export interface TabBarProps {
   currentTabIndex: number;
   onTabPress?: (index: number, tabs: Tab) => void;
   onTabLongPress?: (index: number, tabs: Tab) => void;
-  hideTabs?: boolean;
-  sharedTransitionTag?: string;
 }
 
 export function TabBar(props: TabBarProps) {
   const {
     tabs,
-    currentTabIndex = 0,
+    currentTabIndex = I18nManager.isRTL ? tabs.length - 1 : 0,
     onTabPress,
     onTabLongPress,
-    hideTabs,
-    sharedTransitionTag,
   } = props;
-  const theme = useTheme();
-
   // Used to store the x position of each tab button
   const tabsPositionsX = useSharedValue<number[]>([0, 0, 0, 0, 0]);
 
@@ -103,43 +92,29 @@ export function TabBar(props: TabBarProps) {
   // Animate the indicator to the current tab's x position
   const indicatorAnimatedStyles = useAnimatedStyle(() => {
     const currentX = tabsPositionsX.value[currentTabIndex];
+
+    // On RTL languages, we need to start from -300 to 0
+    const startFrom = I18nManager.isRTL ? -tabsPositionsX.value[0] : 0;
+
     return {
       position: 'absolute',
-      transform: [{ translateX: withEaseOutQuad(currentX) }],
-    };
-  });
-
-  const contentAnimatedStyles = useAnimatedStyle(() => {
-    return {
-      opacity: hideTabs ? withTiming(0, { duration: 200 }) : withDelay(400, withTiming(1)),
+      transform: [{ translateX: withEaseOutQuad(startFrom + currentX) }],
     };
   });
 
   return (
-    <Animated.View
-      testID={'tab-bar'}
-      style={{
-        flex: 1,
-        minWidth: TAB_SIZE * tabs.length + (tabs.length - 1) * 8 + TAB_PADDING * 2,
-        maxWidth: TAB_SIZE * tabs.length + (tabs.length - 1) * 36 + TAB_PADDING * 2,
-        flexGrow: 1,
-
-        padding: TAB_PADDING,
-        height: TAB_BAR_HEIGHT,
-        borderRadius: TAB_BAR_HEIGHT,
-        backgroundColor: theme.colors.primary,
-      }}
-      sharedTransitionTag={sharedTransitionTag}>
-      <Animated.View
-        style={[
-          {
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          },
-          contentAnimatedStyles,
-        ]}>
+    <AnimatedBox
+      flex={1}
+      flexDirection="row"
+      justifyContent="space-between"
+      alignItems="center"
+      padding="s"
+      height={TAB_BAR_HEIGHT}
+      borderRadius="circle"
+      maxWidth={540}
+      backgroundColor="backgroundBottomNavbar"
+      testID={'tab-bar'}>
+      <Box flex={1} flexDirection="row" justifyContent="space-between" borderRadius={'circle'}>
         <Animated.View style={indicatorAnimatedStyles}>
           <Circle size={TAB_SIZE} backgroundColor="primaryInvert" />
         </Animated.View>
@@ -170,8 +145,8 @@ export function TabBar(props: TabBarProps) {
             </View>
           );
         })}
-      </Animated.View>
-    </Animated.View>
+      </Box>
+    </AnimatedBox>
   );
 }
 
@@ -200,8 +175,7 @@ export function BottomTabBar(props: BottomTabBarProps) {
 
   const insets = useSafeAreaInsets();
 
-  const [isBottomTabBarForcedShown] = useRecoilState(bottomTabBarShown);
-  const [isBottomTabBarContentHidden] = useRecoilState(bottomTabBarContentHidden);
+  const [isBottomTabBarForcedShown] = useBottomTabBarShown();
 
   const currentTabIndex = state.index;
 
@@ -282,7 +256,7 @@ export function BottomTabBar(props: BottomTabBarProps) {
         position: 'absolute',
         flexDirection: 'row',
         alignItems: 'center',
-        padding: TAB_BAR_MARGIN, // TODO: adjust for smaller devices
+        padding: TAB_BAR_MARGIN,
         paddingBottom: PADDING_BOTTOM,
         bottom: 0,
         left: 0,
@@ -290,14 +264,10 @@ export function BottomTabBar(props: BottomTabBarProps) {
       }}
       testID={'bottom-tab-bar'}>
       <Animated.View style={animatedContainerStyles}>
-        <TabBar
-          tabs={tabs}
-          currentTabIndex={currentTabIndex}
-          hideTabs={isBottomTabBarContentHidden}
-          sharedTransitionTag={'bottom-tab-bar'}
-        />
+        <TabBar tabs={tabs} currentTabIndex={currentTabIndex} />
       </Animated.View>
     </View>
   );
 }
+
 export default BottomTabBar;

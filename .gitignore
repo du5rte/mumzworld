@@ -20,6 +20,9 @@ android
 # jest
 coverage
 
+# storybook
+storybook-static/
+
 # Utils
 .fttemplates
 

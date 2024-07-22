@@ -1,11 +1,19 @@
 # Mumzworld 🐣
 
-Welcome to 'Home Test' Mumzworld App 👋
-
-![screenshot](assets/images/banner.png)
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to **'Home Test'** Mumzworld App 👋
 
 [![Test](https://github.com/du5rte/mumzworld/actions/workflows/test.yml/badge.svg)](https://github.com/du5rte/mumzworld/actions/workflows/test.yml)
+
+## Features
+
+- ✅ Render **[English](locales/en.json)** 🇺🇸 and **[Arabic](locales/en.json)** 🇦🇪 with [i18next](https://www.i18next.com/)
+- ✅ Toggle currencies between **USD** 🇺🇸 and **AED** 🇦🇪
+- ✅ **RTL** Support (Animations also support RTL, see [BottomTabBar](components/bottom-tab-bar/bottom-tab-bar.tsx:97)
+- ✅ Render 600+ products list with performance (see [ProductList](components/product-list/product-list.tsx) which uses [FlatList](https://reactnative.dev/docs/flatlist))
+- ✅ Navigation and search (see [ProductScreenNavbar](components/product-screen-navbar/product-screen-navbar.tsx) and [BottomTabBar](components/bottom-tab-bar/bottom-tab-bar.tsx) )
+- ✅ Image Gallery using [RNRC](https://www.npmjs.com/package/react-native-reanimated-carousel)
+- ✅ Unit testing (Examples of Functional Unit Testing in [tab-bar.test.tsx](components/bottom-tab-bar/tab-bar.test.tsx) and [button.test.tsx](components/button/button.test.tsx))
+- ✅ Run on Expo Go
 
 ## What's inside?
 
@@ -17,6 +25,9 @@ This guide explains how to this monorepo powered by:
 - 📚 [Storybook](https://storybook.js.org/) — A sandbox for UI components, making testing a breeze
 - ✨ [Restyle](https://github.com/Shopify/restyle) — Theme-based components to keep your app stylish
 - 🏇 [Reanimated](https://docs.swmansion.com/react-native-reanimated/) — For buttery-smooth animations
+- 🧠 [Jotai](https://jotai.pmnd.rs/) — Minimalist and flexible state management, making your code cleaner and simpler
+- 🔄 [SWR](https://swr.vercel.app/) — Data fetching that's not just fast, but also super smart
+- 🌍 [i18next](https://www.i18next.com/) — Turning your app into a passport bro
 
 ## Development Utilities
 
@@ -26,6 +37,7 @@ This project comes with additional development tools:
 - 📏 [ESLint](https://eslint.org/) — Keeping code in check! 👀
 - ✨ [Prettier](https://prettier.io) — Keeping code looking sharp and clean
 - 🧪 [Jest](https://jestjs.io/) — Testing made fun
+- 🦉 [React Native Testing Library](https://callstack.github.io/react-native-testing-library/)
 - 🥊 [Lefthook](https://github.com/evilmartians/lefthook) — Keeping commits in check
 - 📜 [commitlint](https://commitlint.js.org/) — Ensuring commit messages meet the conventional commit format
 - 🤖 [GitHub Actions](https://github.com/features/actions) — for continuous integration and deployment workflows
@@ -34,10 +46,10 @@ Pre-commit hooks verify that the linter and tests pass when committing.
 
 ## Get started
 
-Install dependencies
+Install dependencies (using [pnpm](https://pnpm.io))
 
 ```bash
-npm install
+pnpm install
 ```
 
 Start the app

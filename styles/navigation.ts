@@ -1,4 +1,10 @@
 import { Platform, TextStyle, ViewStyle } from 'react-native';
+import {
+  DefaultTheme as DefaultNavigationTheme,
+  DarkTheme as NavigationDarkTheme,
+  Theme as NavigationTheme,
+} from '@react-navigation/native';
+import { darkTheme, lightTheme } from './themes';
 
 export const headerStyle: ViewStyle = {
   backgroundColor: 'transparent',
@@ -31,4 +37,22 @@ export const headerTitleStyle: TextStyle = {
   }),
   fontSize: 17,
   lineHeight: 24,
+};
+
+export const lightNavigationTheme: NavigationTheme = {
+  ...DefaultNavigationTheme,
+  colors: {
+    ...DefaultNavigationTheme.colors,
+    primary: lightTheme.colors.primary,
+    background: lightTheme.colors.background,
+  },
+};
+
+export const darkNavigationTheme: NavigationTheme = {
+  ...NavigationDarkTheme,
+  colors: {
+    ...NavigationDarkTheme.colors,
+    primary: darkTheme.colors.primary,
+    background: darkTheme.colors.background,
+  },
 };

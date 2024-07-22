@@ -1,7 +1,9 @@
-import { render, screen } from '@/utils/test-utils';
+import { render, screen } from '@/utils/tests/react-native';
 
 import { TabBar } from './bottom-tab-bar';
 import { tabs } from './tabsMock';
+
+jest.useFakeTimers();
 
 describe('bottom-tab-bar', () => {
   it('should contain a `tab-bar` test id', () => {

@@ -1,6 +1,8 @@
-import { fireEvent, render, screen } from '@/utils/test-utils';
+import { fireEvent, render, screen } from '@/utils/tests/react-native';
 
 import { Button } from './button';
+
+jest.useFakeTimers();
 
 describe('button', () => {
   const title = 'Test Button';

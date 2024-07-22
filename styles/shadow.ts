@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import theme from './themes';
+import { theme } from './themes';
 import { SharedValue } from 'react-native-reanimated';
 import { withEaseOutQuad, withEaseOutSin } from './timings';
 
@@ -10,7 +10,9 @@ export function generateElevation(amount: number = 10, shadowColor = theme.color
   const shadow = {
     shadowColor: shadowColor,
     shadowRadius,
-    shadowOffset: { height, width: 0 },
+    ...(Platform.OS === 'ios' && {
+      shadowOffset: { height, width: 0 },
+    }),
     ...(Platform.OS === 'android' && {
       elevationAndroid: 2 * height,
     }),
@@ -37,10 +39,12 @@ export function interactiveElevationChange(
     // Press increases the shadow radius making it seem the light is being diffused
     shadowRadius: press?.value ? withEaseOutQuad(shadowRadius * 2) : withEaseOutSin(shadowRadius),
     // Press shifts the shadow closer to the button making it seem the button is being pressed against the surface
-    shadowOffset: {
-      height: press?.value ? withEaseOutQuad(0) : withEaseOutSin(height),
-      width: 0,
-    },
+    ...(Platform.OS === 'ios' && {
+      shadowOffset: {
+        height: press?.value ? withEaseOutQuad(0) : withEaseOutSin(height),
+        width: 0,
+      },
+    }),
     // Press turns down the opacity making it seem button is being pressed against the surface
     shadowOpacity: press?.value ? withEaseOutQuad(0) : withEaseOutSin(0.085),
     ...(Platform.OS === 'android' && {

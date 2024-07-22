@@ -1,40 +1,25 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@/utils/test-utils'; // Import 'screen' from testing library
+import { render, fireEvent, screen } from '@/utils/tests/react-native'; // Import 'screen' from testing library
 import ProductItem from './product-item';
-import { ProductSummary } from '@/types/product-summary';
+
+import product from '@/mocks/simple-product-en-usd.json';
 
 describe('ProductItem', () => {
-  const product: Partial<ProductSummary> = {
-    name: 'Test Product',
-    image: 'https://example.com/image.jpg',
-    finalPrice: '9.99',
-    regularPrice: '19.99',
-  };
-
   it('should renders product name', () => {
-    render(
-      <ProductItem
-        width={100}
-        height={100}
-        product={product as ProductSummary}
-        onPress={() => {}}
-      />
-    );
-    expect(screen.getByText('Test Product')).toBeTruthy();
+    render(<ProductItem product={product} onPress={() => {}} />);
+    expect(screen.getByText('$159.00')).toBeTruthy();
+  });
+
+  it('should renders product formatted price', () => {
+    render(<ProductItem product={product} onPress={() => {}} />);
+    expect(screen.getByText('$159.00')).toBeTruthy();
   });
 
   it('should calls onPress when pressed', () => {
     const onPressMock = jest.fn();
-    render(
-      <ProductItem
-        width={100}
-        height={100}
-        product={product as ProductSummary}
-        onPress={onPressMock}
-      />
-    );
+    render(<ProductItem product={product} onPress={onPressMock} />);
 
-    fireEvent.press(screen.getByText('Test Product'));
+    fireEvent.press(screen.getByText(product.name));
 
     expect(onPressMock).toHaveBeenCalledTimes(1);
     expect(onPressMock).toHaveBeenCalledWith(product);

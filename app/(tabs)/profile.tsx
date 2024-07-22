@@ -1,58 +1,101 @@
-import { StyleSheet, Switch, ScrollView } from 'react-native';
+import { Switch } from 'react-native';
 import { router } from 'expo-router';
-import { useRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { bottomTabBarShown } from '@/context/bottom-tab-bar-shown';
 import Text from '@/components/text';
 import Button from '@/components/button';
-import Box from '@/components/box';
+import Box, { BoxProps } from '@/components/box';
 import { persistLanguageChange } from '@/locales/i18next';
+import HelloWave from '@/components/hello-wave';
+import useColorScheme from '@/hooks/useColorScheme';
+import useBottomTabBarShown from '@/hooks/useBottomTabBarShownAtom';
+import { BounceInDown, FadeOut } from 'react-native-reanimated';
+
+function MenuItem(props: BoxProps) {
+  return (
+    <Box
+      flexDirection="row"
+      justifyContent="space-between"
+      borderRadius="circle"
+      backgroundColor="surface"
+      paddingLeft="l"
+      alignItems="center"
+      padding="s"
+      {...props}
+    />
+  );
+}
 
 export default function ProfileTab() {
   const { t, i18n } = useTranslation('translation', { keyPrefix: 'devmenu' });
-  const [state, setState] = useRecoilState(bottomTabBarShown);
+  const [bottomTabBarShown, setBottomTabBarShown] = useBottomTabBarShown();
+  const [colorScheme, setColorScheme] = useColorScheme();
 
   const handleSwitchLanguage = () => {
     persistLanguageChange(i18n.language === 'en' ? 'ar' : 'en');
   };
 
+  const toggleDarkMode = () => {
+    setColorScheme(colorScheme === 'dark' ? 'light' : 'dark');
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <Box flex={1} paddingVertical="m" paddingHorizontal="xl" gap="m">
+    <Box flex={1} paddingVertical="m" paddingHorizontal="xl" gap="m">
+      <Box flexDirection="row" gap="s">
         <Text variant="title">{t('hi')}</Text>
-
-        <Box flexDirection="row" justifyContent="space-between">
-          <Text>{t('showBottomTabBar')}</Text>
-          <Switch value={state} onValueChange={setState} />
-        </Box>
-
-        <Box flexDirection="row" justifyContent="space-between" alignItems="center">
-          <Text>{t('switchLanguage')}</Text>
-          <Box flexDirection="row">
-            <Button
-              title={t(i18n.language === 'en' ? 'english' : 'arabic')}
-              icon="globe"
-              size="s"
-              variant="secondary"
-              onPress={handleSwitchLanguage}
-            />
-          </Box>
-        </Box>
-
-        <Button
-          title={t('return')}
-          size="l"
-          onPress={() => {
-            router.back();
-          }}
-        />
+        <HelloWave />
       </Box>
-    </ScrollView>
+
+      <Text>{t('description')}</Text>
+
+      <Box height={12} />
+
+      <MenuItem gap="s">
+        <Text>{t('languageLabel')}</Text>
+        <Box flex={1} />
+        <Button
+          shape="circle"
+          variant="secondary"
+          size="s"
+          title={i18n.language === 'en' ? '🇺🇸' : '🇦🇪'}
+          onPress={handleSwitchLanguage}
+        />
+      </MenuItem>
+
+      <MenuItem>
+        <Text>{t('darkModeLabel')}</Text>
+        <Button
+          shape="circle"
+          variant="secondary"
+          size="s"
+          title={colorScheme === 'dark' ? '☀️' : '🌙'}
+          onPress={toggleDarkMode}
+        />
+      </MenuItem>
+
+      <Text>{t('bottomTabBarDescription')}</Text>
+
+      <MenuItem>
+        <Text>{t('bottomTabBarLabel')}</Text>
+        <Switch value={bottomTabBarShown} onValueChange={setBottomTabBarShown} />
+      </MenuItem>
+
+      {bottomTabBarShown && (
+        <>
+          <Text>{t('returnDescription')}</Text>
+
+          <Box height={12} />
+
+          <Button
+            title={t('return')}
+            size="l"
+            onPress={() => {
+              router.back();
+            }}
+            entering={BounceInDown}
+            exiting={FadeOut.duration(500)}
+          />
+        </>
+      )}
+    </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

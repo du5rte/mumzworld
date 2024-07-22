@@ -3,8 +3,9 @@ import { Platform } from 'react-native';
 
 export const theme = createTheme({
   colors: {
+    surface: 'hsl(0, 0%, 96%)', // #FAFAFA
     background: 'hsl(0, 0%, 100%)', // #FFFFFF
-    surface: 'hsl(0, 0%, 98%)', // #FAFAFA
+    backgroundBottomNavbar: 'hsl(0, 0%, 0%)',
 
     // Primary
     primary: 'hsl(0, 0%, 0%)',
@@ -14,7 +15,7 @@ export const theme = createTheme({
     primaryBackgroundPress: 'hsl(0, 0%, 20%)',
 
     // Secondary
-    secondary: 'hsl(0, 0%, 60%)', // Lightened
+    secondary: 'hsl(0, 0%, 30%)', // Lightened
     secondaryInvert: 'hsl(0, 0%, 0%)', // Inverted
     secondaryHover: 'hsl(0, 0%, 67%)', // Lightened
     secondaryPress: 'hsl(0, 0%, 60%)', // Lightened
@@ -23,26 +24,24 @@ export const theme = createTheme({
     tertiary: 'hsl(0, 0%, 68%)', // #ADADAD
 
     // Inactive
-    inactive: 'hsl(0, 0%, 53%)', // #878787
+    inactive: 'hsl(0, 0%, 60%)', // #878787
     inactiveSurface: 'hsl(0, 0%, 95%)',
 
     // Highlight
-    highlight: 'hsl(216, 100%, 48%)',
-    highlightHover: 'hsl(216, 100%, 45%)',
-    highlightPress: 'hsl(216, 100%, 52%)',
-    highlightActive: 'hsl(216, 100%, 57%)',
-    highlightInvertPress: 'hsl(216, 100%, 83%)',
+    highlight: 'hsl(335, 100%, 40%)', // #C30045 Brand color
+    highlightHover: 'hsl(335, 100%, 37%)',
+    highlightPress: 'hsl(335, 100%, 44%)',
+    highlightActive: 'hsl(335, 100%, 49%)',
+    highlightInvertPress: 'hsl(335, 100%, 76%)',
 
     // Success
     success: 'hsl(154, 72%, 51%)',
-    successDivider: 'hsl(154, 74%, 76%)',
 
     // Error
     error: 'hsl(0, 72%, 51%)',
-    errorDivider: 'hsl(1, 74%, 76%)',
 
     // Divider
-    divider: 'hsl(240, 6%, 83%)', // #EDEDED blended to #D2D2D7 to transitions easier with highlight
+    divider: 'hsl(240, 6%, 90%)', // #EDEDED blended to #D2D2D7 to transitions easier with highlight
     dividerHover: 'hsl(240, 5%, 68%)', // #ADADAD blended to #A9A9B1 to transitions easier with highlight
     dividerActive: 'hsl(240, 2%, 54%)', // #8C8C8C blended to #86868B to transitions easier with highlight
 
@@ -51,6 +50,10 @@ export const theme = createTheme({
     shadowColorHover: 'hsla(0, 0%, 0%, 0.04)',
     shadowColorFocus: 'hsla(0, 0%, 0%, 0.04)',
     shadowColorPress: 'hsla(0, 0%, 0%, 0)',
+
+    // skeleton
+    skeleton: 'hsl(0, 0%, 77%)',
+    skeletonBackground: 'hsl(0, 0%, 88%)',
 
     // Transparent
     transparent: 'transparent',
@@ -89,6 +92,8 @@ export const theme = createTheme({
     none: 0,
     s: 4,
     m: 8,
+    l: 15,
+    xl: 24,
     circle: 9999,
   },
   /**
@@ -125,34 +130,7 @@ export const theme = createTheme({
       fontSize: 16,
       lineHeight: 24,
     },
-    semiBold: {
-      fontFamily: 'Inter-Medium',
-      ...(Platform.OS === 'web' && {
-        fontFamily: 'Inter, sans-serif',
-        fontWeight: '500',
-      }),
-      fontSize: 16,
-      lineHeight: 24,
-    },
-    bold: {
-      fontFamily: 'Inter-SemiBold',
-      ...(Platform.OS === 'web' && {
-        fontFamily: 'Inter, sans-serif',
-        fontWeight: '600',
-      }),
-      fontSize: 16,
-      lineHeight: 24,
-    },
-    title: {
-      fontFamily: 'Inter-Bold',
-      ...(Platform.OS === 'web' && {
-        fontFamily: 'Inter, sans-serif',
-        fontWeight: '700',
-      }),
-      fontSize: 32,
-      lineHeight: 32,
-    },
-    subtitle: {
+    header: {
       fontFamily: 'Inter-Medium',
       ...(Platform.OS === 'web' && {
         fontFamily: 'Inter, sans-serif',
@@ -161,25 +139,42 @@ export const theme = createTheme({
       fontSize: 20,
       lineHeight: 24,
     },
-    details: {
+    title: {
       fontFamily: 'Inter-Medium',
       ...(Platform.OS === 'web' && {
         fontFamily: 'Inter, sans-serif',
         fontWeight: '500',
       }),
+      fontSize: 16,
+      lineHeight: 24,
+    },
+    price: {
+      fontFamily: 'NunitoSans-Medium',
+      ...(Platform.OS === 'web' && {
+        fontFamily: 'NunitoSans, sans-serif',
+        fontWeight: 'Medium',
+      }),
       color: 'primary',
+      fontSize: 16,
+      lineHeight: 24,
+    },
+    info: {
+      fontFamily: 'Inter-Medium',
+      ...(Platform.OS === 'web' && {
+        fontFamily: 'Inter, sans-serif',
+        fontWeight: '500',
+      }),
+      color: 'secondary',
       fontSize: 14,
       lineHeight: 16,
     },
-    price: {
-      fontFamily: 'Inter-Medium',
-      ...(Platform.OS === 'web' && {
-        fontFamily: 'Inter, sans-serif',
-        fontWeight: '500',
-      }),
-      color: 'primary',
+    description: {
       fontSize: 14,
       lineHeight: 20,
+    },
+    detail: {
+      fontSize: 12,
+      lineHeight: 16,
     },
   },
 });
@@ -195,55 +190,56 @@ export const darkTheme: Theme = {
   ...theme,
   colors: {
     ...theme.colors,
-    background: 'hsl(0, 0%, 10%)', // Darkened
-    surface: 'hsl(0, 0%, 12%)', // Darkened
+    background: 'hsl(0, 0%, 10%)', // Darkened from white
+    surface: 'hsl(0, 0%, 14%)', // Darkened from light grey
 
-    // Dark Theme Colors
     // Primary
-    primary: 'hsl(0, 0%, 100%)', // Inverted
-    primaryInvert: 'hsl(0, 0%, 0%)', // Inverted
+    primary: 'hsl(0, 0%, 100%)', // Lightened
+    primaryInvert: 'hsl(0, 0%, 10%)', // Darkened
     primaryHover: 'hsl(0, 0%, 83%)', // Lightened
-    primaryPress: 'hsl(0, 0%, 100%)', // Inverted
+    primaryPress: 'hsla(0, 0%, 40%, 0.5)',
     primaryBackgroundPress: 'hsl(0, 0%, 80%)', // Lightened
 
     // Secondary
-    secondary: 'hsl(0, 0%, 60%)', // Lightened
-    secondaryInvert: 'hsl(0, 0%, 100%)', // Inverted
-    secondaryHover: 'hsl(0, 0%, 67%)', // Lightened
-    secondaryPress: 'hsl(0, 0%, 60%)', // Lightened
+    secondary: 'hsl(0, 0%, 70%)', // Lightened
+    secondaryInvert: 'hsl(0, 0%, 100%)', // Lightened
+    secondaryHover: 'hsl(0, 0%, 33%)', // Darkened
+    secondaryPress: 'hsl(0, 0%, 40%)', // Darkened
 
     // Tertiary
     tertiary: 'hsl(0, 0%, 32%)', // Darkened
 
     // Inactive
-    inactive: 'hsl(0, 0%, 47%)', // Adjusted
+    inactive: 'hsl(0, 0%, 40%)', // Darkened
     inactiveSurface: 'hsl(0, 0%, 15%)', // Darkened
 
     // Highlight
-    highlight: 'hsl(216, 100%, 52%)', // Adjusted
-    highlightHover: 'hsl(216, 100%, 55%)', // Adjusted
-    highlightPress: 'hsl(216, 100%, 48%)', // Adjusted
-    highlightActive: 'hsl(216, 100%, 43%)', // Adjusted
-    highlightInvertPress: 'hsl(216, 100%, 17%)', // Adjusted
+    highlight: 'hsl(335, 100%, 40%)', // Unchanged
+    highlightHover: 'hsl(335, 100%, 37%)', // Unchanged
+    highlightPress: 'hsl(335, 100%, 44%)', // Unchanged
+    highlightActive: 'hsl(335, 100%, 49%)', // Unchanged
+    highlightInvertPress: 'hsl(335, 100%, 76%)', // Unchanged
 
     // Success
-    success: 'hsl(154, 72%, 49%)', // Adjusted
-    successDivider: 'hsl(154, 74%, 24%)', // Adjusted
+    success: 'hsl(154, 72%, 51%)', // Unchanged
 
     // Error
-    error: 'hsl(0, 72%, 49%)', // Adjusted
-    errorDivider: 'hsl(1, 74%, 24%)', // Adjusted
+    error: 'hsl(0, 72%, 51%)', // Unchanged
 
     // Divider
-    divider: 'hsl(240, 6%, 17%)', // Lightened for contrast
-    dividerHover: 'hsl(240, 5%, 32%)', // Lightened for contrast
-    dividerActive: 'hsl(240, 2%, 46%)', // Lightened for contrast
+    divider: 'hsl(240, 6%, 30%)', // Darkened
+    dividerHover: 'hsl(240, 5%, 32%)', // Darkened
+    dividerActive: 'hsl(240, 2%, 46%)', // Darkened
 
     // Shadows
-    shadowColor: 'hsla(0, 0%, 0%, 0.2)', // Adjusted opacity
-    shadowColorHover: 'hsla(0, 0%, 0%, 0.1)', // Adjusted opacity
-    shadowColorFocus: 'hsla(0, 0%, 0%, 0.1)', // Adjusted opacity
-    shadowColorPress: 'hsla(0, 0%, 0%, 0.05)', // Adjusted opacity
+    shadowColor: 'hsla(0, 0%, 0%, 0.2)', // Adjusted for dark theme
+    shadowColorHover: 'hsla(0, 0%, 0%, 0.1)', // Adjusted for dark theme
+    shadowColorFocus: 'hsla(0, 0%, 0%, 0.1)', // Adjusted for dark theme
+    shadowColorPress: 'hsla(0, 0%, 0%, 0.05)', // Adjusted for dark theme
+
+    // Skeleton
+    skeleton: 'hsl(0, 0%, 18%)', // Darkened
+    skeletonBackground: 'hsl(0, 0%, 24%)', // Darkened
 
     // Transparent
     transparent: 'transparent', // Unchanged
@@ -257,5 +253,3 @@ export const themes: Record<ThemeVariants, Theme> = {
   light: lightTheme,
   dark: darkTheme,
 };
-
-export default theme;
