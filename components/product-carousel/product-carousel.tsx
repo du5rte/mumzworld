@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWindowDimensions, StyleSheet } from 'react-native';
+import { useWindowDimensions, StyleSheet, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import { useSharedValue } from 'react-native-reanimated';
 import { FormattedProductImage } from '@/types/product';
@@ -9,14 +9,22 @@ import { PRODUCT_DETAILS_CAROUSEL_HEIGHT } from '../product-details/product-deta
 
 export interface ProductCarouselProps {
   data: FormattedProductImage[];
+  onImagePress?: (url: string) => void;
 }
 
 export function ProductCarousel(props: ProductCarouselProps) {
-  const { data } = props;
+  const { data, onImagePress } = props;
 
   const ref = React.useRef<ICarouselInstance>(null);
   const { width } = useWindowDimensions();
   const progress = useSharedValue<number>(0);
+
+  const handleImagePress = (index: number) => () => {
+    if (onImagePress) {
+      const img = data[index].url;
+      onImagePress(img);
+    }
+  };
 
   return (
     <Box backgroundColor="background">
@@ -27,12 +35,13 @@ export function ProductCarousel(props: ProductCarouselProps) {
         data={data}
         onProgressChange={progress}
         renderItem={({ index }) => (
-          <Image
-            key={index}
-            source={{ uri: data[index].url }}
-            style={StyleSheet.absoluteFill}
-            contentFit="contain"
-          />
+          <Pressable key={index} style={StyleSheet.absoluteFill} onPress={handleImagePress(index)}>
+            <Image
+              source={{ uri: data[index].url }}
+              style={StyleSheet.absoluteFill}
+              contentFit="contain"
+            />
+          </Pressable>
         )}
       />
     </Box>

@@ -112,7 +112,7 @@ export function TabBar(props: TabBarProps) {
       height={TAB_BAR_HEIGHT}
       borderRadius="circle"
       maxWidth={540}
-      backgroundColor="backgroundBottomNavbar"
+      backgroundColor="black"
       testID={'tab-bar'}>
       <Box flex={1} flexDirection="row" justifyContent="space-between" borderRadius={'circle'}>
         <Animated.View style={indicatorAnimatedStyles}>

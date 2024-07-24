@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Platform, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Portal } from '@gorhom/portal';
 import { TAB_BAR_MARGIN } from '@/components/bottom-tab-bar/bottom-tab-bar-constants';
 import Box from '@/components/box';
 import { useProduct } from '@/hooks/useProduct';
@@ -11,11 +13,14 @@ import ProductCarousel from '@/components/product-carousel';
 import ProductScreenNavbar from '@/components/product-screen-navbar';
 import ScreenPlaceholder from '@/components/screen-placeholder';
 import { useTranslation } from 'react-i18next';
+import LightBox from '@/components/light-box';
 
 export default function ProductScreen() {
   const insets = useSafeAreaInsets();
   const paddingBottom = useBottomTabBarPadding();
   const { t } = useTranslation('translation', { keyPrefix: 'devmenu' });
+
+  const [fullImage, setFullImage] = useState<string | null>(null);
 
   const { product, error, loading } = useProduct();
 
@@ -25,6 +30,10 @@ export default function ProductScreen() {
 
   const handleGoBack = () => {
     router.back();
+  };
+
+  const handleResetFullImage = () => {
+    setFullImage(null);
   };
 
   if (error) {
@@ -43,7 +52,7 @@ export default function ProductScreen() {
         <ProductDetailsSkeleton />
       ) : (
         <ScrollView contentContainerStyle={{ paddingBottom }}>
-          <ProductCarousel data={product.mediaGallery} />
+          <ProductCarousel data={product.mediaGallery} onImagePress={setFullImage} />
           <ProductDetails product={product} />
         </ScrollView>
       )}
@@ -51,6 +60,8 @@ export default function ProductScreen() {
       <Box position="absolute" left={0} right={0} style={{ bottom: bottomPosition }}>
         <ProductScreenNavbar onPurchage={handleGoBack} />
       </Box>
+
+      <Portal>{fullImage && <LightBox image={fullImage} onReset={handleResetFullImage} />}</Portal>
     </Box>
   );
 }

@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as JotaiProvider } from 'jotai';
 import { ThemeProvider } from '@shopify/restyle';
 import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
+import { PortalProvider } from '@gorhom/portal';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
@@ -56,10 +57,12 @@ function RootLayout(props: PropsWithChildren) {
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
             <SWRConfig value={{ fetcher }}>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="product/[id]" options={{ presentation: 'modal' }} />
-              </Stack>
+              <PortalProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen name="product/[id]" options={{ presentation: 'modal' }} />
+                </Stack>
+              </PortalProvider>
             </SWRConfig>
           </SafeAreaProvider>
         </GestureHandlerRootView>

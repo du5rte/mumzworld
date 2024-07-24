@@ -5,7 +5,6 @@ export const theme = createTheme({
   colors: {
     surface: 'hsl(0, 0%, 96%)', // #FAFAFA
     background: 'hsl(0, 0%, 100%)', // #FFFFFF
-    backgroundBottomNavbar: 'hsl(0, 0%, 0%)',
 
     // Primary
     primary: 'hsl(0, 0%, 0%)',
@@ -57,6 +56,10 @@ export const theme = createTheme({
 
     // Transparent
     transparent: 'transparent',
+
+    // Fixed colors
+    white: 'white',
+    black: 'black',
   },
   spacing: {
     none: 0,
