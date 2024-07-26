@@ -1,9 +1,8 @@
-import React, { PropsWithChildren } from 'react';
-import { render } from '@testing-library/react-native';
+import React, { PropsWithChildren, ReactElement } from 'react';
+import { render, RenderOptions, RenderResult } from '@testing-library/react-native';
 import { ThemeProvider } from '@shopify/restyle';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as JotaiProvider } from 'jotai';
-
 import { lightTheme } from '@/styles/themes';
 import '@/locales/i18next-jest';
 import '@testing-library/jest-native/extend-expect';
@@ -24,7 +23,7 @@ const initialMetrics = {
   },
 };
 
-const AllTheProviders = ({ children }: PropsWithChildren) => {
+const Providers = ({ children }: PropsWithChildren) => {
   return (
     <JotaiProvider store={store}>
       <ThemeProvider theme={lightTheme}>
@@ -34,8 +33,8 @@ const AllTheProviders = ({ children }: PropsWithChildren) => {
   );
 };
 
-const customRender: typeof render = (ui, options?) =>
-  render(ui, { wrapper: AllTheProviders, ...options });
+const customRender = (ui: ReactElement, options?: RenderOptions): RenderResult =>
+  render(ui, { wrapper: Providers, ...options });
 
 // re-export everything
 export * from '@testing-library/react-native';

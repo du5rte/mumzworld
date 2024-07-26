@@ -5,7 +5,7 @@ import { useArgs } from '@storybook/preview-api';
 import { TabBar } from './bottom-tab-bar';
 
 import type { TabBarProps } from './bottom-tab-bar';
-import { tabs } from './tabsMock';
+import { tabs } from './tabs-mock';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof TabBar> = {

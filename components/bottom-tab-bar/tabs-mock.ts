@@ -1,4 +1,4 @@
-import { Tab } from '../bottom-tab-bar';
+import { Tab } from '.';
 
 export const tabs: Tab[] = [
   {
