@@ -3,10 +3,13 @@ import { render, RenderOptions, RenderResult } from '@testing-library/react-nati
 import { ThemeProvider } from '@shopify/restyle';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as JotaiProvider } from 'jotai';
+import { TamaguiProvider } from '@tamagui/core';
 import { lightTheme } from '@/styles/themes';
 import '@/locales/i18next-jest';
 import '@testing-library/jest-native/extend-expect';
 import store from '@/context/store';
+
+import tamaguiConfig from '@/tamagui.config';
 
 const initialMetrics = {
   frame: {
@@ -26,9 +29,11 @@ const initialMetrics = {
 const Providers = ({ children }: PropsWithChildren) => {
   return (
     <JotaiProvider store={store}>
-      <ThemeProvider theme={lightTheme}>
-        <SafeAreaProvider initialMetrics={initialMetrics}>{children}</SafeAreaProvider>
-      </ThemeProvider>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+        <ThemeProvider theme={lightTheme}>
+          <SafeAreaProvider initialMetrics={initialMetrics}>{children}</SafeAreaProvider>
+        </ThemeProvider>
+      </TamaguiProvider>
     </JotaiProvider>
   );
 };

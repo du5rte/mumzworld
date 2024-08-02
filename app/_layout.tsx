@@ -6,6 +6,7 @@ import { SWRConfig } from 'swr';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as JotaiProvider } from 'jotai';
 import { ThemeProvider } from '@shopify/restyle';
+import { TamaguiProvider } from '@tamagui/core';
 import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -16,6 +17,7 @@ import { darkTheme, lightTheme } from '@/styles/themes';
 import { fetcher } from '@/utils/fetcher';
 import store from '@/context/store';
 import { lightNavigationTheme, darkNavigationTheme } from '@/styles/navigation';
+import tamaguiConfig from '@/tamagui.config';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -50,21 +52,23 @@ function RootLayout(props: PropsWithChildren) {
   }
 
   return (
-    <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
-      <NavigationThemeProvider
-        value={colorScheme === 'dark' ? darkNavigationTheme : lightNavigationTheme}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <SafeAreaProvider>
-            <SWRConfig value={{ fetcher }}>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="product/[id]" options={{ presentation: 'modal' }} />
-              </Stack>
-            </SWRConfig>
-          </SafeAreaProvider>
-        </GestureHandlerRootView>
-      </NavigationThemeProvider>
-    </ThemeProvider>
+    <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
+      <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+        <NavigationThemeProvider
+          value={colorScheme === 'dark' ? darkNavigationTheme : lightNavigationTheme}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaProvider>
+              <SWRConfig value={{ fetcher }}>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen name="product/[id]" options={{ presentation: 'modal' }} />
+                </Stack>
+              </SWRConfig>
+            </SafeAreaProvider>
+          </GestureHandlerRootView>
+        </NavigationThemeProvider>
+      </ThemeProvider>
+    </TamaguiProvider>
   );
 }
 

@@ -17,6 +17,9 @@ android
 # macOS
 .DS_Store
 
+# tamagui
+.tamagui/
+
 # jest
 coverage
 

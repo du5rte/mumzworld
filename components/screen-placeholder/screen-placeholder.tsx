@@ -4,7 +4,8 @@ import { Circle } from '@/components/circle';
 
 import Box, { BoxProps } from '../box';
 import Icon, { FeatherIconNames } from '../icon';
-import Text from '../text';
+import Paragraph from '@/ui/paragraph';
+import Text from '@/ui/text';
 
 export interface ScreenPlaceholderProps extends BoxProps {
   icon: FeatherIconNames;
@@ -23,13 +24,13 @@ export function ScreenPlaceholder(props: ScreenPlaceholderProps) {
       paddingHorizontal="2xl"
       {...rest}>
       <Circle size={82} borderWidth={3} borderColor="primary">
-        <Text color="primary" lineHeight={36}>
+        <Text color="$primary" lineHeight={36}>
           <Icon name={icon} size={36} />
         </Text>
       </Circle>
-      <Text color="primary" textAlign="center" numberOfLines={2}>
+      <Paragraph textAlign="center" numberOfLines={2}>
         {description}
-      </Text>
+      </Paragraph>
     </Box>
   );
 }
