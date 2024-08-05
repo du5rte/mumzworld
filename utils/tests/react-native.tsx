@@ -30,9 +30,7 @@ const Providers = ({ children }: PropsWithChildren) => {
   return (
     <JotaiProvider store={store}>
       <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
-        <ThemeProvider theme={lightTheme}>
-          <SafeAreaProvider initialMetrics={initialMetrics}>{children}</SafeAreaProvider>
-        </ThemeProvider>
+        <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>
       </TamaguiProvider>
     </JotaiProvider>
   );

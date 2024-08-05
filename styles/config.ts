@@ -3,24 +3,18 @@ import { createTamagui } from '@tamagui/core';
 import { fonts } from './fonts';
 import { tokens } from './tokens';
 import { media } from './media';
+import { animations } from './animations';
+import { lightTheme, darkTheme } from './themes2';
 
 export const config = createTamagui({
   fonts,
   tokens,
   themes: {
-    light: {
-      background: 'hsl(0, 0%, 100%)',
-      primary: 'hsl(0, 0%, 0%)',
-      secondary: 'hsl(0, 0%, 30%)',
-    },
-    dark: {
-      background: 'hsl(0, 0%, 10%)',
-      primary: 'hsl(0, 0%, 100%)',
-      secondary: 'hsl(0, 0%, 70%)',
-      // color: tokens.color.white,
-    },
+    light: lightTheme,
+    dark: darkTheme,
   },
   media,
+  animations,
   shorthands: {
     f: 'flex',
     m: 'margin',

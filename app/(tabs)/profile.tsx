@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import Text from '@/components/text';
 import Button from '@/components/button';
+import Button2 from '@/ui/button';
 import Box, { BoxProps } from '@/components/box';
 import { persistLanguageChange } from '@/locales/i18next';
 import HelloWave from '@/components/hello-wave';
@@ -93,6 +94,15 @@ export default function ProfileTab() {
             }}
             entering={BounceInDown}
             exiting={FadeOut.duration(500)}
+          />
+
+          <Button2
+            text={t('return')}
+            variant="highlight"
+            size="l"
+            // onPress={() => {
+            //   router.back();
+            // }}
           />
         </>
       )}
