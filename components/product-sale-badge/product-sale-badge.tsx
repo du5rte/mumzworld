@@ -17,9 +17,9 @@ export function ProductSaleBadge(props: ProductSaleBadgeProps) {
       alignItems="center"
       paddingVertical="s"
       paddingHorizontal="m"
-      borderRadius="circle"
+      borderRadius="round"
       backgroundColor="highlight">
-      <Text variant="price" color="primaryInvert">
+      <Text variant="price" color="contrast">
         <Trans i18nKey="promo" values={{ val: percent }} />
       </Text>
     </Box>

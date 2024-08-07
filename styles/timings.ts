@@ -1,35 +1,13 @@
 import { withTiming, Easing } from 'react-native-reanimated';
 
 /**
- * EaseOutExpo: accelerates quickly and then decelerates slowly
- * See more: https://easings.net/#easeOutExpo
- */
-export const withEaseOutExpo: typeof withTiming = (value, config) => {
-  'worklet';
-  return withTiming(value, {
-    easing: Easing.out(Easing.exp),
-    ...config,
-  });
-};
-
-/**
- * EaseOutCirc: accelerates moderately and then decelerates slowly
- * See more: https://easings.net/#easeOutCirc
- */
-export const withEaseOutCirc: typeof withTiming = (value, config) => {
-  'worklet';
-  return withTiming(value, {
-    easing: Easing.out(Easing.circle),
-    ...config,
-  });
-};
-
-/**
+ * Fastest
+ *
  * EaseOutQuad: accelerates really quickly and then moderately decelerates
  * duration: 200
- * See more: https://easings.net/#easeOutQuad
+ * @see https://easings.net/#easeOutQuad
  */
-export const withEaseOutQuad: typeof withTiming = (value, config) => {
+export const withFastestTiming: typeof withTiming = (value, config) => {
   'worklet';
   return withTiming(value, {
     duration: 200,
@@ -39,12 +17,46 @@ export const withEaseOutQuad: typeof withTiming = (value, config) => {
 };
 
 /**
- * EaseOutSin: move very slowly and slow down at the end
- * See more: https://easings.net/#easeOutSin
+ * Fast
+ *
+ * EaseOutExpo: accelerates quickly and then decelerates slowly
+ * @see https://easings.net/#easeOutExpo
  */
-export const withEaseOutSin: typeof withTiming = (value, config) => {
+export const withFastTiming: typeof withTiming = (value, config) => {
   'worklet';
   return withTiming(value, {
+    duration: 300,
+    easing: Easing.out(Easing.exp),
+    ...config,
+  });
+};
+
+/**
+ * Medium
+ *
+ * EaseOutCirc: accelerates moderately and then decelerates slowly
+ * @see https://easings.net/#easeOutCirc
+ */
+export const withMediumTiming: typeof withTiming = (value, config) => {
+  'worklet';
+  return withTiming(value, {
+    duration: 300,
+
+    easing: Easing.out(Easing.circle),
+    ...config,
+  });
+};
+
+/**
+ * Slow
+ *
+ * EaseOutSin: move very slowly and slow down at the end
+ * @see https://easings.net/#easeOutSin
+ */
+export const withSlowTiming: typeof withTiming = (value, config) => {
+  'worklet';
+  return withTiming(value, {
+    duration: 300,
     easing: Easing.out(Easing.sin),
     ...config,
   });

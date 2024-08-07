@@ -14,7 +14,7 @@ export default function ProductDetailsSkeleton() {
         <Skeleton height={24} borderRadius="l" />
         <Skeleton height={24} borderRadius="m" />
 
-        <Skeleton width={'100%'} height={1} borderRadius="circle" />
+        <Skeleton width="100%" height={1} borderRadius="round" />
 
         <Skeleton height={24} width={120} borderRadius="m" />
 

@@ -90,7 +90,7 @@ function TextInput(props: TextInputProps, ref: React.Ref<RNTextInput | null>) {
     <AnimatedBox
       flexDirection="row"
       alignItems="center"
-      borderRadius="circle"
+      borderRadius="round"
       borderWidth={6}
       margin="s"
       gap="s"

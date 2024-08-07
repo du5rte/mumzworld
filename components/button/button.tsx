@@ -15,10 +15,12 @@ import Animated, {
 import { I18nManager } from 'react-native';
 
 import useTheme from '@/hooks/useTheme';
-import { withEaseOutCirc, withEaseOutExpo, withEaseOutQuad } from '@/styles/timings';
+import { withMediumTiming, withFastTiming, withFastestTiming } from '@/styles/timings';
 import { interactiveElevationChange } from '@/styles/shadow';
 
 import Icon, { FeatherIconNames } from '../icon';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const buttonVariants = ['primary', 'secondary', 'highlight', 'text'] as const;
 export const buttonSizes = ['xs', 's', 'm', 'l', 'xl'] as const;
@@ -117,12 +119,12 @@ export function Button(props: ButtonProps) {
   const hover = useSharedValue(false);
 
   const animatedBackgroundColor = useDerivedValue(() => {
-    if (disabled) return withEaseOutExpo(theme.colors.inactiveSurface);
+    if (disabled) return withFastTiming(theme.colors.inactiveBackground);
     if (variant === 'primary') {
-      return withEaseOutExpo(hover.value ? theme.colors.primaryHover : theme.colors.primary);
+      return withFastTiming(hover.value ? theme.colors.primaryHover : theme.colors.primary);
     }
     if (variant === 'highlight') {
-      return withEaseOutExpo(
+      return withFastTiming(
         press.value
           ? theme.colors.highlightPress
           : hover.value
@@ -131,29 +133,29 @@ export function Button(props: ButtonProps) {
       );
     }
     if (variant === 'secondary') {
-      return withEaseOutExpo(theme.colors.background);
+      return withFastTiming(theme.colors.background);
     }
-    return withEaseOutCirc(theme.colors.transparent);
+    return withMediumTiming(theme.colors.transparent);
   });
 
   const animatedTextColor = useDerivedValue(() => {
-    if (disabled) return withEaseOutQuad(theme.colors.inactive);
+    if (disabled) return withFastestTiming(theme.colors.inactive);
 
     if (variant === 'highlight') {
-      return withEaseOutQuad(
-        press.value ? theme.colors.highlightInvertPress : theme.colors.primaryInvert
+      return withFastestTiming(
+        press.value ? theme.colors.highlightPressContrast : theme.colors.contrast
       );
     }
     if (variant === 'secondary' || variant === 'text') {
-      return withEaseOutQuad(
+      return withFastestTiming(
         press.value
           ? theme.colors.secondaryPress
           : hover.value
             ? theme.colors.secondary
-            : theme.colors.secondaryInvert
+            : theme.colors.contrast
       );
     }
-    return withEaseOutQuad(press.value ? theme.colors.primaryPress : theme.colors.primaryInvert);
+    return withFastestTiming(press.value ? theme.colors.primaryPress : theme.colors.contrast);
   });
 
   const animatedBackgroundStyle = useAnimatedStyle(() => {
@@ -167,7 +169,7 @@ export function Button(props: ButtonProps) {
         width: sizes[size],
       }),
       ...((shape === 'round' || shape === 'circle') && {
-        borderRadius: theme.borderRadii.circle,
+        borderRadius: theme.borderRadii.round,
       }),
       // Needs to have a backgroundColor for the shadow to work on iOS
       ...((variant === 'secondary' || 'elevate' in props) &&
@@ -198,7 +200,7 @@ export function Button(props: ButtonProps) {
         width: sizes[size],
       }),
       ...((shape === 'round' || shape === 'circle') && {
-        borderRadius: theme.borderRadii.circle,
+        borderRadius: theme.borderRadii.round,
       }),
       gap: 8,
     };
@@ -248,7 +250,7 @@ export function Button(props: ButtonProps) {
   };
 
   return (
-    <Pressable
+    <AnimatedPressable
       accessibilityRole="button"
       accessibilityState={!disabled ? { selected: true } : {}}
       accessibilityLabel={title}
@@ -258,26 +260,24 @@ export function Button(props: ButtonProps) {
       onHoverIn={handleHoverIn}
       onHoverOut={handleHoverOut}
       disabled={disabled}
-      testID={`button-${variant}${disabled ? '-disabled' : ''}`}>
-      <Animated.View
-        style={[animatedWrapperStyle, animatedBackgroundStyle]}
-        entering={entering}
-        exiting={exiting}>
-        {icon && iconPosition === 'left' && (
-          <Animated.Text style={animatedIconStyle}>
-            <Icon name={icon} size={iconSizes[size]} />
-          </Animated.Text>
-        )}
+      testID={`button-${variant}${disabled ? '-disabled' : ''}`}
+      style={[animatedWrapperStyle, animatedBackgroundStyle]}
+      entering={entering}
+      exiting={exiting}>
+      {icon && iconPosition === 'left' && (
+        <Animated.Text style={animatedIconStyle}>
+          <Icon name={icon} size={iconSizes[size]} />
+        </Animated.Text>
+      )}
 
-        {title && <Animated.Text style={animatedTextStyle}>{title}</Animated.Text>}
+      {title && <Animated.Text style={animatedTextStyle}>{title}</Animated.Text>}
 
-        {icon && iconPosition === 'right' && (
-          <Animated.Text style={animatedIconStyle}>
-            <Icon name={icon} size={iconSizes[size]} />
-          </Animated.Text>
-        )}
-      </Animated.View>
-    </Pressable>
+      {icon && iconPosition === 'right' && (
+        <Animated.Text style={animatedIconStyle}>
+          <Icon name={icon} size={iconSizes[size]} />
+        </Animated.Text>
+      )}
+    </AnimatedPressable>
   );
 }
 

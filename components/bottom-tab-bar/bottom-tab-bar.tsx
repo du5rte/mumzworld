@@ -6,7 +6,7 @@ import Feather from '@expo/vector-icons/Feather';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import useTheme from '@/hooks/useTheme';
 import useBottomTabBarShown from '@/hooks/useBottomTabBarShownAtom';
-import { withEaseOutQuad, withEaseOutSin } from '@/styles/timings';
+import { withFastestTiming, withSlowTiming } from '@/styles/timings';
 import {
   TAB_SIZE,
   TAB_BAR_HEIGHT,
@@ -98,7 +98,7 @@ export function TabBar(props: TabBarProps) {
 
     return {
       position: 'absolute',
-      transform: [{ translateX: withEaseOutQuad(startFrom + currentX) }],
+      transform: [{ translateX: withFastestTiming(startFrom + currentX) }],
     };
   });
 
@@ -110,13 +110,13 @@ export function TabBar(props: TabBarProps) {
       alignItems="center"
       padding="s"
       height={TAB_BAR_HEIGHT}
-      borderRadius="circle"
+      borderRadius="round"
       maxWidth={540}
-      backgroundColor="backgroundBottomNavbar"
+      backgroundColor="black"
       testID={'tab-bar'}>
-      <Box flex={1} flexDirection="row" justifyContent="space-between" borderRadius={'circle'}>
+      <Box flex={1} flexDirection="row" justifyContent="space-between" borderRadius="round">
         <Animated.View style={indicatorAnimatedStyles}>
-          <Circle size={TAB_SIZE} backgroundColor="primaryInvert" />
+          <Circle size={TAB_SIZE} backgroundColor="contrast" />
         </Animated.View>
 
         {tabs.map((tab, index) => {
@@ -201,8 +201,8 @@ export function BottomTabBar(props: BottomTabBarProps) {
       transform: [
         {
           translateY: tabBarShow
-            ? withEaseOutSin(0)
-            : withEaseOutQuad(TAB_BAR_HEIGHT + PADDING_BOTTOM),
+            ? withSlowTiming(0)
+            : withFastestTiming(TAB_BAR_HEIGHT + PADDING_BOTTOM),
         },
       ],
     };

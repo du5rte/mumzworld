@@ -15,7 +15,7 @@ function MenuItem(props: BoxProps) {
     <Box
       flexDirection="row"
       justifyContent="space-between"
-      borderRadius="circle"
+      borderRadius="round"
       backgroundColor="surface"
       paddingLeft="l"
       alignItems="center"

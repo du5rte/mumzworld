@@ -20,7 +20,7 @@ export function ScreenPlaceholder(props: ScreenPlaceholderProps) {
       justifyContent="center"
       alignItems="center"
       gap="m"
-      paddingHorizontal="2xl"
+      paddingHorizontal="xxl"
       {...rest}>
       <Circle size={82} borderWidth={3} borderColor="primary">
         <Text color="primary" lineHeight={36}>

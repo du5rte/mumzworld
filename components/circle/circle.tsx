@@ -15,7 +15,7 @@ export function Circle(props: CircleProps) {
       height={size}
       justifyContent="center"
       alignItems="center"
-      borderRadius="circle"
+      borderRadius="round"
       {...props}
     />
   );

@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { theme } from './themes';
 import { SharedValue } from 'react-native-reanimated';
-import { withEaseOutQuad, withEaseOutSin } from './timings';
+import { withFastestTiming, withSlowTiming } from './timings';
 
 // This function is used to generate shadow by elevation
 // See more: https://github.com/tamagui/tamagui/blob/master/code/ui/stacks/src/getElevation.tsx
@@ -37,18 +37,18 @@ export function interactiveElevationChange(
   return {
     shadowColor: 'hsl(0, 0%, 0%)',
     // Press increases the shadow radius making it seem the light is being diffused
-    shadowRadius: press?.value ? withEaseOutQuad(shadowRadius * 2) : withEaseOutSin(shadowRadius),
+    shadowRadius: press?.value ? withFastestTiming(shadowRadius * 2) : withSlowTiming(shadowRadius),
     // Press shifts the shadow closer to the button making it seem the button is being pressed against the surface
     ...(Platform.OS === 'ios' && {
       shadowOffset: {
-        height: press?.value ? withEaseOutQuad(0) : withEaseOutSin(height),
+        height: press?.value ? withFastestTiming(0) : withSlowTiming(height),
         width: 0,
       },
     }),
     // Press turns down the opacity making it seem button is being pressed against the surface
-    shadowOpacity: press?.value ? withEaseOutQuad(0) : withEaseOutSin(0.085),
+    shadowOpacity: press?.value ? withFastestTiming(0) : withSlowTiming(0.085),
     ...(Platform.OS === 'android' && {
-      elevation: press?.value ? withEaseOutQuad(0) : withEaseOutSin(elevation),
+      elevation: press?.value ? withFastestTiming(0) : withSlowTiming(elevation),
     }),
     ...(Platform.OS === 'web' && {
       // Hover shifts the shadow away from the button making it seem the button is floating

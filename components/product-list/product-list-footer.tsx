@@ -27,7 +27,7 @@ export function ProductListFooter(props: ProductListFooterProps) {
         justifyContent="center"
         alignItems="center"
         gap="m"
-        paddingHorizontal="2xl">
+        paddingHorizontal="xxl">
         <Circle size={82} borderWidth={3} borderColor="primary">
           <Text color="primary" lineHeight={36}>
             <Icon name="arrow-up" size={36} />

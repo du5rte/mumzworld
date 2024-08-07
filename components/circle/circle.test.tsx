@@ -13,7 +13,7 @@ describe('Circle', () => {
     expect(getByTestId('circle')).toHaveStyle({
       width: size,
       height: size,
-      borderRadius: 9999,
+      borderRadius: 100_000,
     });
   });
 });
