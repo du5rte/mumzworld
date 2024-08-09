@@ -16,8 +16,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.mumzworld",
       "infoPlist": {
-        "ExpoLocalization_supportsRTL": true,
-        "ExpoLocalization_forcesRTL": true
+        "ExpoLocalization_supportsRTL": true
       }
     },
     "android": {

@@ -1,6 +1,7 @@
 import { Switch } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import Animated, { BounceInDown, FadeOut } from 'react-native-reanimated';
 import Text from '@/components/text';
 import Button from '@/components/button';
 import Box, { BoxProps } from '@/components/box';
@@ -8,7 +9,6 @@ import { persistLanguageChange } from '@/locales/i18next';
 import HelloWave from '@/components/hello-wave';
 import useColorScheme from '@/hooks/useColorScheme';
 import useBottomTabBarShown from '@/hooks/useBottomTabBarShownAtom';
-import { BounceInDown, FadeOut } from 'react-native-reanimated';
 
 function MenuItem(props: BoxProps) {
   return (
@@ -47,8 +47,6 @@ export default function ProfileTab() {
 
       <Text>{t('description')}</Text>
 
-      <Box height={12} />
-
       <MenuItem gap="s">
         <Text>{t('languageLabel')}</Text>
         <Box flex={1} />
@@ -85,15 +83,15 @@ export default function ProfileTab() {
 
           <Box height={12} />
 
-          <Button
-            title={t('return')}
-            size="l"
-            onPress={() => {
-              router.back();
-            }}
-            entering={BounceInDown}
-            exiting={FadeOut.duration(500)}
-          />
+          <Animated.View entering={BounceInDown} exiting={FadeOut.duration(500)}>
+            <Button
+              title={t('return')}
+              size="l"
+              onPress={() => {
+                router.back();
+              }}
+            />
+          </Animated.View>
         </>
       )}
     </Box>

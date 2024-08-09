@@ -7,7 +7,7 @@ export interface CircleProps extends BoxProps {
 }
 
 export function Circle(props: CircleProps) {
-  const { size } = props;
+  const { size, ...rest } = props;
 
   return (
     <Box
@@ -16,7 +16,7 @@ export function Circle(props: CircleProps) {
       justifyContent="center"
       alignItems="center"
       borderRadius="round"
-      {...props}
+      {...rest}
     />
   );
 }

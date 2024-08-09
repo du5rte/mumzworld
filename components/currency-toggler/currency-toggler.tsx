@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import useCurrency from '@/hooks/useCurrency';
-import Button from '../button';
+import TextButton from '../text-button';
 
 export interface CurrencyTogglerProps {}
 
@@ -18,12 +18,9 @@ export function CurrencyToggler(props: CurrencyTogglerProps) {
   const usd = `${t('usd.name')}`;
 
   return (
-    <Button
-      variant="text"
-      size="xl"
-      title={currency === 'AED' ? aed : usd}
-      onPress={toggleCurrency}
-    />
+    <TextButton fontSize={18} textVariant="title" onPress={toggleCurrency}>
+      {currency === 'AED' ? aed : usd}
+    </TextButton>
   );
 }
 

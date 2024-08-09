@@ -8,11 +8,11 @@ const initialThemeColors = {
   // Primary
   primary: 'hsl(0, 0%, 0%)',
   primaryHover: 'hsl(0, 0%, 17%)',
-  primaryPress: 'hsla(0, 0%, 60%, 0.5)',
+  primaryPress: 'hsla(0, 0%, 70%, 0.5)',
   // Secondary
   secondary: 'hsl(0, 0%, 30%)',
-  secondaryHover: 'hsl(0, 0%, 67%)',
-  secondaryPress: 'hsl(0, 0%, 60%)',
+  secondaryHover: 'hsl(0, 0%, 43%)',
+  secondaryPress: 'hsl(0, 0%, 20%)',
   // Tertiary
   tertiary: 'hsl(0, 0%, 68%)',
   // Inactive
@@ -20,8 +20,8 @@ const initialThemeColors = {
   inactiveBackground: 'hsl(0, 0%, 95%)',
   // Highlight
   highlight: 'hsl(335, 100%, 40%)',
-  highlightHover: 'hsl(335, 100%, 37%)',
-  highlightPress: 'hsl(335, 100%, 44%)',
+  highlightHover: 'hsl(335, 100%, 44%)',
+  highlightPress: 'hsl(335, 100%, 48%)',
   highlightPressContrast: 'hsl(335, 100%, 76%)',
   // Success
   success: 'hsl(154, 72%, 51%)',

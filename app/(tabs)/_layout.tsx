@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 
 import BottomTabBar from '@/components/bottom-tab-bar';
-import { headerStyle, headerTitleStyle } from '@/styles/navigation';
+import { headerStyle, headerTitleStyle, headerRightContainerStyle } from '@/styles/navigation';
 import { useTranslation } from 'react-i18next';
 import CurrencyToggler from '@/components/currency-toggler';
 import LogoSvg from '@/components/logo/logo';
@@ -21,6 +21,7 @@ export default function TabLayout() {
         headerTitleStyle,
         headerTitle: () => <LogoSvg />,
         headerRight: () => <CurrencyToggler />,
+        headerRightContainerStyle,
       }}
       initialRouteName="shop"
       backBehavior="history">

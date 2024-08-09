@@ -5,6 +5,7 @@ import {
   Theme as NavigationTheme,
 } from '@react-navigation/native';
 import { darkTheme, lightTheme } from './themes';
+import { spaces } from './tokens';
 
 export const headerStyle: ViewStyle = {
   backgroundColor: 'transparent',
@@ -37,6 +38,10 @@ export const headerTitleStyle: TextStyle = {
   }),
   fontSize: 17,
   lineHeight: 24,
+};
+
+export const headerRightContainerStyle: ViewStyle = {
+  paddingRight: spaces.xl,
 };
 
 export const lightNavigationTheme: NavigationTheme = {

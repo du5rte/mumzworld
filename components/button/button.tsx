@@ -15,14 +15,13 @@ import Animated, {
 import { I18nManager } from 'react-native';
 
 import useTheme from '@/hooks/useTheme';
-import { withMediumTiming, withFastTiming, withFastestTiming } from '@/styles/timings';
+import { withFastTiming, withFastestTiming } from '@/styles/timings';
 import { interactiveElevationChange } from '@/styles/shadow';
 
 import Icon, { FeatherIconNames } from '../icon';
+import { withQuickSpring } from '@/styles/springs';
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-
-export const buttonVariants = ['primary', 'secondary', 'highlight', 'text'] as const;
+export const buttonVariants = ['primary', 'secondary', 'highlight'] as const;
 export const buttonSizes = ['xs', 's', 'm', 'l', 'xl'] as const;
 export const buttonIconPositions = ['left', 'right'] as const;
 export const buttonShapes = ['square', 'rectangle', 'round', 'circle'] as const;
@@ -79,7 +78,6 @@ export interface ButtonProps extends PressableProps {
   shape?: ButtonShapes;
   disabled?: boolean;
   float?: boolean;
-  color?: string;
   icon?: FeatherIconNames;
   iconPosition?: ButtonIconPositions;
   elevate?: number;
@@ -107,10 +105,7 @@ export function Button(props: ButtonProps) {
     onPressOut,
     onHoverIn,
     onHoverOut,
-
-    entering,
-    exiting,
-    // ...rest
+    ...rest
   } = props;
 
   const theme = useTheme();
@@ -119,80 +114,48 @@ export function Button(props: ButtonProps) {
   const hover = useSharedValue(false);
 
   const animatedBackgroundColor = useDerivedValue(() => {
-    if (disabled) return withFastTiming(theme.colors.inactiveBackground);
-    if (variant === 'primary') {
-      return withFastTiming(hover.value ? theme.colors.primaryHover : theme.colors.primary);
-    }
-    if (variant === 'highlight') {
-      return withFastTiming(
-        press.value
-          ? theme.colors.highlightPress
-          : hover.value
-            ? theme.colors.highlightHover
-            : theme.colors.highlight
-      );
-    }
-    if (variant === 'secondary') {
-      return withFastTiming(theme.colors.background);
-    }
-    return withMediumTiming(theme.colors.transparent);
+    const { colors } = theme;
+
+    const variantColors: Record<ButtonVariants, string> = {
+      primary: press.value ? colors.primary : hover.value ? colors.primaryHover : colors.primary,
+      secondary: colors.background,
+      highlight: press.value
+        ? colors.highlightPress
+        : hover.value
+          ? colors.highlightHover
+          : colors.highlight,
+    };
+
+    return disabled ? colors.inactiveBackground : variantColors[variant];
   });
 
   const animatedTextColor = useDerivedValue(() => {
-    if (disabled) return withFastestTiming(theme.colors.inactive);
+    const { colors } = theme;
 
-    if (variant === 'highlight') {
-      return withFastestTiming(
-        press.value ? theme.colors.highlightPressContrast : theme.colors.contrast
-      );
-    }
-    if (variant === 'secondary' || variant === 'text') {
-      return withFastestTiming(
-        press.value
-          ? theme.colors.secondaryPress
-          : hover.value
-            ? theme.colors.secondary
-            : theme.colors.contrast
-      );
-    }
-    return withFastestTiming(press.value ? theme.colors.primaryPress : theme.colors.contrast);
-  });
-
-  const animatedBackgroundStyle = useAnimatedStyle(() => {
-    return {
-      backgroundColor: animatedBackgroundColor.value,
-      borderRadius: borderRadius[size],
-      ...(Platform.OS === 'ios' && {
-        borderCurve: 'continuous',
-      }),
-      ...((shape === 'square' || shape === 'circle') && {
-        width: sizes[size],
-      }),
-      ...((shape === 'round' || shape === 'circle') && {
-        borderRadius: theme.borderRadii.round,
-      }),
-      // Needs to have a backgroundColor for the shadow to work on iOS
-      ...((variant === 'secondary' || 'elevate' in props) &&
-        interactiveElevationChange(elevate || 10, { press, hover })),
-      ...(Platform.OS === 'web' && {
-        cursor: 'pointer',
-
-        ...(disabled && {
-          cursor: 'auto',
-        }),
-      }),
+    const variantColors: Record<ButtonVariants, string> = {
+      primary: press.value ? colors.primaryPress : colors.contrast,
+      secondary: press.value
+        ? colors.secondaryPress
+        : hover.value
+          ? colors.secondaryHover
+          : colors.secondary,
+      highlight: press.value ? colors.highlightPressContrast : colors.contrast,
     };
+
+    return disabled ? colors.inactive : variantColors[variant];
   });
 
-  const animatedWrapperStyle = useAnimatedStyle(() => {
+  const animatedContainerStyle = useAnimatedStyle(() => {
     return {
-      // flex: 1,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
       flexShrink: 1,
       flexGrow: 0,
+      gap: 8,
       height: sizes[size],
+      borderRadius: borderRadius[size],
+      backgroundColor: withFastTiming(animatedBackgroundColor.value, { duration: 500 }),
       ...((shape === 'rectangle' || shape === 'round') && {
         paddingHorizontal: paddings[size],
       }),
@@ -202,13 +165,19 @@ export function Button(props: ButtonProps) {
       ...((shape === 'round' || shape === 'circle') && {
         borderRadius: theme.borderRadii.round,
       }),
-      gap: 8,
-    };
-  });
-
-  const animatedIconStyle = useAnimatedStyle(() => {
-    return {
-      color: animatedTextColor.value,
+      ...(Platform.OS === 'ios' && {
+        borderCurve: 'continuous',
+      }),
+      transform: [{ scale: withQuickSpring(press.value ? 0.95 : 1) }],
+      // Needs to have a backgroundColor for the shadow to work on iOS
+      ...((variant === 'secondary' || 'elevate' in props) &&
+        interactiveElevationChange(elevate || 10, { press, hover })),
+      ...(Platform.OS === 'web' && {
+        cursor: 'pointer',
+        ...(disabled && {
+          cursor: 'auto',
+        }),
+      }),
     };
   });
 
@@ -221,11 +190,18 @@ export function Button(props: ButtonProps) {
       }),
       fontSize: fontSizes[size],
       numberOfLines: 1,
-      color: animatedTextColor.value,
+      color: withFastestTiming(animatedTextColor.value),
       ...(Platform.OS === 'web' && {
         userSelect: 'none',
         WebkitUserSelect: 'none',
-      }),
+      },
+      { duration: 300 }),
+    };
+  });
+
+  const animatedIconStyle = useAnimatedStyle(() => {
+    return {
+      color: withFastestTiming(animatedTextColor.value),
     };
   });
 
@@ -250,7 +226,7 @@ export function Button(props: ButtonProps) {
   };
 
   return (
-    <AnimatedPressable
+    <Pressable
       accessibilityRole="button"
       accessibilityState={!disabled ? { selected: true } : {}}
       accessibilityLabel={title}
@@ -260,24 +236,22 @@ export function Button(props: ButtonProps) {
       onHoverIn={handleHoverIn}
       onHoverOut={handleHoverOut}
       disabled={disabled}
-      testID={`button-${variant}${disabled ? '-disabled' : ''}`}
-      style={[animatedWrapperStyle, animatedBackgroundStyle]}
-      entering={entering}
-      exiting={exiting}>
-      {icon && iconPosition === 'left' && (
-        <Animated.Text style={animatedIconStyle}>
-          <Icon name={icon} size={iconSizes[size]} />
-        </Animated.Text>
-      )}
+      {...rest}>
+      <Animated.View style={animatedContainerStyle}>
+        {icon && iconPosition === 'left' && (
+          <Animated.Text style={animatedIconStyle}>
+            <Icon name={icon} size={iconSizes[size]} />
+          </Animated.Text>
+        )}
+        {title && <Animated.Text style={animatedTextStyle}>{title}</Animated.Text>}
 
-      {title && <Animated.Text style={animatedTextStyle}>{title}</Animated.Text>}
-
-      {icon && iconPosition === 'right' && (
-        <Animated.Text style={animatedIconStyle}>
-          <Icon name={icon} size={iconSizes[size]} />
-        </Animated.Text>
-      )}
-    </AnimatedPressable>
+        {icon && iconPosition === 'right' && (
+          <Animated.Text style={animatedIconStyle}>
+            <Icon name={icon} size={iconSizes[size]} />
+          </Animated.Text>
+        )}
+      </Animated.View>
+    </Pressable>
   );
 }
 

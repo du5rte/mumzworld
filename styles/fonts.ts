@@ -5,18 +5,26 @@ import { Platform } from 'react-native';
  * @see https://polaris.shopify.com/design/typography#section-display-styles
  */
 
-const body = {
+export const body = {
   fontFamily: 'Inter-Regular',
   ...(Platform.OS === 'web' && {
     fontFamily: 'Inter, sans-serif',
     fontWeight: '400',
   }),
-  color: 'primary',
+  color: 'primary' as const,
   fontSize: 16,
   lineHeight: 24,
 };
 
-const header = {
+export const bold = {
+  fontFamily: 'Inter-SemiBold',
+  ...(Platform.OS === 'web' && {
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '600',
+  }),
+};
+
+export const header = {
   fontFamily: 'Inter-Medium',
   ...(Platform.OS === 'web' && {
     fontFamily: 'Inter, sans-serif',
@@ -26,7 +34,7 @@ const header = {
   lineHeight: 24,
 };
 
-const title = {
+export const title = {
   fontFamily: 'Inter-Medium',
   ...(Platform.OS === 'web' && {
     fontFamily: 'Inter, sans-serif',
@@ -36,40 +44,41 @@ const title = {
   lineHeight: 24,
 };
 
-const price = {
+export const price = {
   fontFamily: 'NunitoSans-Medium',
   ...(Platform.OS === 'web' && {
     fontFamily: 'NunitoSans, sans-serif',
     fontWeight: 'Medium',
   }),
-  color: 'primary',
+  color: 'primary' as const,
   fontSize: 16,
   lineHeight: 24,
 };
 
-const info = {
+export const info = {
   fontFamily: 'Inter-Medium',
   ...(Platform.OS === 'web' && {
     fontFamily: 'Inter, sans-serif',
     fontWeight: '500',
   }),
-  color: 'secondary',
+  color: 'secondary' as const,
   fontSize: 14,
   lineHeight: 16,
 };
 
-const description = {
+export const description = {
   fontSize: 14,
   lineHeight: 20,
 };
 
-const detail = {
+export const detail = {
   fontSize: 12,
   lineHeight: 16,
 };
 
 export default {
   body,
+  bold,
   header,
   title,
   price,
