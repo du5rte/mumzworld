@@ -27,6 +27,7 @@ function RootLayout(props: PropsWithChildren) {
     'Inter-Regular': require('../assets/fonts/Inter-Regular.ttf'),
     'Inter-Medium': require('../assets/fonts/Inter-Medium.ttf'),
     'Inter-SemiBold': require('../assets/fonts/Inter-SemiBold.ttf'),
+    'Inter-Bold': require('../assets/fonts/Inter-Bold.ttf'),
     'NunitoSans-Medium': require('../assets/fonts/NunitoSans_10pt-Medium.ttf'),
   });
 

@@ -16,11 +16,19 @@ export const body = {
   lineHeight: 24,
 };
 
-export const bold = {
+export const semiBold = {
   fontFamily: 'Inter-SemiBold',
   ...(Platform.OS === 'web' && {
     fontFamily: 'Inter, sans-serif',
     fontWeight: '600',
+  }),
+};
+
+export const bold = {
+  fontFamily: 'Inter-Bold',
+  ...(Platform.OS === 'web' && {
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '700',
   }),
 };
 
@@ -78,6 +86,7 @@ export const detail = {
 
 export default {
   body,
+  semiBold,
   bold,
   header,
   title,

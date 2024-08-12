@@ -43,11 +43,17 @@ export default function ShopTab() {
 
   const { products } = useProducts();
 
-  // const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState('');
   const [searchResults, setSearchResults] = useState<FuseResult<FormattedSimpleProduct>[]>([]);
 
   const fuse = useMemo(
-    () => new Fuse<FormattedSimpleProduct>(products, { keys: options }),
+    () =>
+      new Fuse<FormattedSimpleProduct>(products, {
+        threshold: 0.4,
+        includeMatches: true,
+        includeScore: true,
+        keys: options,
+      }),
     [products]
   );
 
@@ -62,7 +68,10 @@ export default function ShopTab() {
 
   const search = debounce((text: string) => {
     if (text.length > 0) {
+      setInputText(text);
+
       const results = fuse.search(text);
+
       if (results?.length > 0) {
         setSearchResults(results);
       }
@@ -87,7 +96,13 @@ export default function ShopTab() {
 
   const renderItem = useCallback(
     ({ item }: { item: FuseResult<FormattedSimpleProduct> }) => {
-      return <ProductSearchItem product={item.item} onProductPress={handleRouteToProduct} />;
+      return (
+        <ProductSearchItem
+          search={inputText}
+          product={item.item}
+          onProductPress={handleRouteToProduct}
+        />
+      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchResults]
@@ -117,6 +132,7 @@ export default function ShopTab() {
             keyExtractor={keyExtractor}
             ItemSeparatorComponent={itemSeparator}
             contentContainerStyle={{ paddingBottom }}
+            maxToRenderPerBatch={10}
           />
         )}
       </Box>
